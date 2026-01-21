@@ -14,4 +14,5 @@ export { ProfileManager, } from './profile.js';
 export { PostManager, } from './post.js';
 export { ListsManager, } from './lists.js';
 export { FeedsManager, } from './feeds.js';
+export { MediaManager, } from './media.js';
 //# sourceMappingURL=index.js.map

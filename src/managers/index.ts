@@ -91,3 +91,12 @@ export {
   type FeedPost,
   type SavedFeed,
 } from './feeds.js';
+
+export {
+  MediaManager,
+  type UploadedBlob,
+  type ImageUploadOptions,
+  type VideoUploadOptions,
+  type EmbedImage,
+  type ImageEmbed,
+} from './media.js';

@@ -14,4 +14,5 @@ export { ProfileManager, type Profile as ProfileData, type ProfileUpdateInput, }
 export { PostManager, type PostImage, type PostLink, type CreatePostInput, type Post, type ThreadPost, } from './post.js';
 export { ListsManager, type ListPurpose, type List, type ListMember, type CreateListInput, } from './lists.js';
 export { FeedsManager, type FeedGenerator, type FeedPost, type SavedFeed, } from './feeds.js';
+export { MediaManager, type UploadedBlob, type ImageUploadOptions, type VideoUploadOptions, type EmbedImage, type ImageEmbed, } from './media.js';
 //# sourceMappingURL=index.d.ts.map
