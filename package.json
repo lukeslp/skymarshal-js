@@ -1,0 +1,76 @@
+{
+  "name": "skymarshal-core",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Bluesky content management toolkit - authentication, data management, search, and engagement analysis",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./auth": {
+      "types": "./dist/managers/auth.d.ts",
+      "import": "./dist/managers/auth.js"
+    },
+    "./search": {
+      "types": "./dist/managers/search.d.ts",
+      "import": "./dist/managers/search.js"
+    },
+    "./models": {
+      "types": "./dist/models/index.d.ts",
+      "import": "./dist/models/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "test": "node --test dist/**/*.test.js"
+  },
+  "keywords": [
+    "bluesky",
+    "atproto",
+    "at-protocol",
+    "social-media",
+    "content-management",
+    "authentication",
+    "search",
+    "engagement",
+    "analytics",
+    "typescript"
+  ],
+  "author": "Luke Steuber <luke@lukesteuber.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lukeslp/skymarshal-js",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/lukeslp/skymarshal-js#readme",
+  "bugs": {
+    "url": "https://github.com/lukeslp/skymarshal-js/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  },
+  "peerDependencies": {
+    "@atproto/api": ">=0.12.0"
+  }
+}

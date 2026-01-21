@@ -1,0 +1,151 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AtUri = exports.ATP_URI_REGEX = void 0;
+const at_identifier_js_1 = require("./at-identifier.js");
+const nsid_js_1 = require("./nsid.js");
+__exportStar(require("./aturi_validation.js"), exports);
+exports.ATP_URI_REGEX = 
+// proto-    --did--------------   --name----------------   --path----   --query--   --hash--
+/^(at:\/\/)?((?:did:[a-z0-9:%-]+)|(?:[a-z0-9][a-z0-9.:-]*))(\/[^?#\s]*)?(\?[^#\s]+)?(#[^\s]+)?$/i;
+//                       --path-----   --query--  --hash--
+const RELATIVE_REGEX = /^(\/[^?#\s]*)?(\?[^#\s]+)?(#[^\s]+)?$/i;
+class AtUri {
+    constructor(uri, base) {
+        Object.defineProperty(this, "hash", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "host", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "pathname", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "searchParams", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        const parsed = base !== undefined
+            ? typeof base === 'string'
+                ? Object.assign(parse(base), parseRelative(uri))
+                : Object.assign({ host: base.host }, parseRelative(uri))
+            : parse(uri);
+        (0, at_identifier_js_1.ensureValidAtIdentifier)(parsed.host);
+        this.hash = parsed.hash ?? '';
+        this.host = parsed.host;
+        this.pathname = parsed.pathname ?? '';
+        this.searchParams = parsed.searchParams;
+    }
+    static make(handleOrDid, collection, rkey) {
+        let str = handleOrDid;
+        if (collection)
+            str += '/' + collection;
+        if (rkey)
+            str += '/' + rkey;
+        return new AtUri(str);
+    }
+    get protocol() {
+        return 'at:';
+    }
+    get origin() {
+        return `at://${this.host}`;
+    }
+    get hostname() {
+        return this.host;
+    }
+    set hostname(v) {
+        (0, at_identifier_js_1.ensureValidAtIdentifier)(v);
+        this.host = v;
+    }
+    get search() {
+        return this.searchParams.toString();
+    }
+    set search(v) {
+        this.searchParams = new URLSearchParams(v);
+    }
+    get collection() {
+        return this.pathname.split('/').filter(Boolean)[0] || '';
+    }
+    set collection(v) {
+        (0, nsid_js_1.ensureValidNsid)(v);
+        const parts = this.pathname.split('/').filter(Boolean);
+        parts[0] = v;
+        this.pathname = parts.join('/');
+    }
+    get rkey() {
+        return this.pathname.split('/').filter(Boolean)[1] || '';
+    }
+    set rkey(v) {
+        const parts = this.pathname.split('/').filter(Boolean);
+        parts[0] || (parts[0] = 'undefined');
+        parts[1] = v;
+        this.pathname = parts.join('/');
+    }
+    get href() {
+        return this.toString();
+    }
+    toString() {
+        let path = this.pathname || '/';
+        if (!path.startsWith('/')) {
+            path = `/${path}`;
+        }
+        let qs = '';
+        if (this.searchParams.size) {
+            qs = `?${this.searchParams.toString()}`;
+        }
+        let hash = this.hash;
+        if (hash && !hash.startsWith('#')) {
+            hash = `#${hash}`;
+        }
+        return `at://${this.host}${path}${qs}${hash}`;
+    }
+}
+exports.AtUri = AtUri;
+function parse(str) {
+    const match = str.match(exports.ATP_URI_REGEX);
+    if (!match) {
+        throw new Error(`Invalid AT uri: ${str}`);
+    }
+    return {
+        host: match[2],
+        hash: match[5],
+        pathname: match[3],
+        searchParams: new URLSearchParams(match[4]),
+    };
+}
+function parseRelative(str) {
+    const match = str.match(RELATIVE_REGEX);
+    if (!match) {
+        throw new Error(`Invalid path: ${str}`);
+    }
+    return {
+        hash: match[3],
+        pathname: match[1],
+        searchParams: new URLSearchParams(match[2]),
+    };
+}
+//# sourceMappingURL=aturi.js.map
