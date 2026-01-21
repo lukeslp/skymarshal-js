@@ -54,3 +54,40 @@ export {
   type EngagementAnalysis,
   type AnalysisStatistics,
 } from './analytics.js';
+
+export {
+  NotificationManager,
+  type Notification,
+  type NotificationListOptions,
+  type NotificationListResult,
+} from './notifications.js';
+
+export {
+  ProfileManager,
+  type Profile as ProfileData,
+  type ProfileUpdateInput,
+} from './profile.js';
+
+export {
+  PostManager,
+  type PostImage,
+  type PostLink,
+  type CreatePostInput,
+  type Post,
+  type ThreadPost,
+} from './post.js';
+
+export {
+  ListsManager,
+  type ListPurpose,
+  type List,
+  type ListMember,
+  type CreateListInput,
+} from './lists.js';
+
+export {
+  FeedsManager,
+  type FeedGenerator,
+  type FeedPost,
+  type SavedFeed,
+} from './feeds.js';

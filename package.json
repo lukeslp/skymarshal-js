@@ -1,5 +1,5 @@
 {
-  "name": "skymarshal-core",
+  "name": "skymarshal",
   "version": "2.0.0",
   "type": "module",
   "description": "Comprehensive Bluesky/AT Protocol toolkit - authentication, content management, network analysis, chat, analytics, backup, vision AI, and sentiment analysis",
@@ -53,6 +53,26 @@
     "./models": {
       "types": "./dist/models/index.d.ts",
       "import": "./dist/models/index.js"
+    },
+    "./notifications": {
+      "types": "./dist/managers/notifications.d.ts",
+      "import": "./dist/managers/notifications.js"
+    },
+    "./profile": {
+      "types": "./dist/managers/profile.d.ts",
+      "import": "./dist/managers/profile.js"
+    },
+    "./post": {
+      "types": "./dist/managers/post.d.ts",
+      "import": "./dist/managers/post.js"
+    },
+    "./lists": {
+      "types": "./dist/managers/lists.d.ts",
+      "import": "./dist/managers/lists.js"
+    },
+    "./feeds": {
+      "types": "./dist/managers/feeds.d.ts",
+      "import": "./dist/managers/feeds.js"
     }
   },
   "scripts": {
@@ -81,6 +101,11 @@
     "alt-text",
     "sentiment",
     "network-analysis",
+    "notifications",
+    "profile",
+    "posting",
+    "lists",
+    "feeds",
     "typescript"
   ],
   "author": "Luke Steuber <luke@lukesteuber.com>",

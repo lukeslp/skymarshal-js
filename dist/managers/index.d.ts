@@ -9,4 +9,9 @@ export { ContentManager, calculateEngagementScore, type FetchOptions, type PostW
 export { NetworkManager, type Profile, type Relationship, } from './network.js';
 export { ChatManager, type Conversation, type ConversationMember, type Message, type Reaction, type MessageFetchOptions, } from './chat.js';
 export { AnalyticsManager, getEngagementPreset, type BotSignal, type AccountAnalysis, type EngagementPreset, type EngagementAnalysis, type AnalysisStatistics, } from './analytics.js';
+export { NotificationManager, type Notification, type NotificationListOptions, type NotificationListResult, } from './notifications.js';
+export { ProfileManager, type Profile as ProfileData, type ProfileUpdateInput, } from './profile.js';
+export { PostManager, type PostImage, type PostLink, type CreatePostInput, type Post, type ThreadPost, } from './post.js';
+export { ListsManager, type ListPurpose, type List, type ListMember, type CreateListInput, } from './lists.js';
+export { FeedsManager, type FeedGenerator, type FeedPost, type SavedFeed, } from './feeds.js';
 //# sourceMappingURL=index.d.ts.map
