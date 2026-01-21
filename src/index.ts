@@ -1,37 +1,57 @@
 /**
- * skymarshal-core
+ * skymarshal-core 2.0.0
  *
- * Bluesky content management toolkit for TypeScript/JavaScript.
+ * Comprehensive Bluesky/AT Protocol toolkit for TypeScript/JavaScript.
  *
- * Provides authentication, content filtering, search, and engagement analysis
- * for Bluesky/AT Protocol applications.
+ * Provides authentication, content management, network analysis, chat,
+ * analytics, backup, vision AI, and sentiment analysis.
  *
  * @example
  * ```ts
  * import {
  *   AuthManager,
+ *   ContentManager,
+ *   NetworkManager,
+ *   ChatManager,
+ *   AnalyticsManager,
  *   SearchManager,
- *   calculateEngagementScore
- * } from '@skymarshal/core';
+ * } from 'skymarshal-core';
  *
  * // Authenticate
  * const auth = new AuthManager();
  * await auth.login('myhandle.bsky.social', 'my-app-password');
  *
- * // Access the BskyAgent for API calls
- * const agent = auth.agent;
- * const feed = await agent.getAuthorFeed({ actor: auth.did! });
+ * // Content management
+ * const content = new ContentManager(auth.agent);
+ * const posts = await content.getPosts(auth.did!);
+ * await content.createPost('Hello from skymarshal!');
  *
- * // Filter and analyze content
+ * // Network analysis
+ * const network = new NetworkManager(auth.agent);
+ * const mutuals = await network.getMutuals(auth.did!);
+ * const nonFollowers = await network.getNonFollowers(auth.did!);
+ *
+ * // Chat/DMs
+ * const chat = new ChatManager(auth.agent);
+ * const convos = await chat.listConvos();
+ * await chat.sendMessage(convos[0].id, 'Hello!');
+ *
+ * // Bot detection & analytics
+ * const analytics = new AnalyticsManager();
+ * const analysis = analytics.batchAnalyze(mutuals);
+ * const stats = analytics.getStatistics(analysis);
+ *
+ * // Search & filter
  * const search = new SearchManager();
- * const filtered = search.filterContent(items, { minLikes: 10 });
- * const stats = search.calculateStatistics(filtered);
+ * const filtered = search.filterContent(posts, { minLikes: 10 });
  * ```
  *
  * @packageDocumentation
  */
 
+// ============================================================================
 // Models - Core data structures
+// ============================================================================
 export {
   // Types
   type DeleteMode,
@@ -46,14 +66,16 @@ export {
   DEFAULT_SETTINGS,
 
   // Functions
-  calculateEngagementScore,
+  calculateEngagementScore as calcEngagement,
   updateContentEngagement,
   parseDateTime,
   mergeContentItems,
   createContentItem,
 } from './models/index.js';
 
-// Managers
+// ============================================================================
+// Managers - Core functionality
+// ============================================================================
 export {
   // Auth
   AuthManager,
@@ -67,4 +89,92 @@ export {
   SearchManager,
   type SearchManagerOptions,
   type SortMode,
+
+  // Content
+  ContentManager,
+  calculateEngagementScore,
+  type FetchOptions,
+  type PostWithEngagement,
+  type LikeRecord,
+  type RepostRecord,
+  type CreatePostOptions,
+  type PaginatedResult,
+
+  // Network
+  NetworkManager,
+  type Profile,
+  type Relationship,
+
+  // Chat
+  ChatManager,
+  type Conversation,
+  type ConversationMember,
+  type Message,
+  type Reaction,
+  type MessageFetchOptions,
+
+  // Analytics
+  AnalyticsManager,
+  getEngagementPreset,
+  type BotSignal,
+  type AccountAnalysis,
+  type EngagementPreset,
+  type EngagementAnalysis,
+  type AnalysisStatistics,
 } from './managers/index.js';
+
+// ============================================================================
+// Services - Extended functionality
+// ============================================================================
+export {
+  // Backup
+  BackupService,
+  type BackupOptions,
+  type BackupProgress,
+  type BackupResult,
+  type ImportOptions,
+  type ImportProgress,
+  type ImportResult,
+  type CarRecord,
+
+  // Vision/Alt Text
+  VisionService,
+  type VisionProvider,
+  type ProviderConfig,
+  type AltTextOptions,
+  type AltTextResult,
+  type ImageAnalysis,
+
+  // Sentiment
+  SentimentService,
+  type SentimentScore,
+  type BatchSentimentResult,
+} from './services/index.js';
+
+// ============================================================================
+// Utilities
+// ============================================================================
+export {
+  // Cache
+  EngagementCache,
+  DEFAULT_TTL,
+  type TTLConfig,
+
+  // Pagination
+  PaginationHelper,
+
+  // Export
+  ExportHelper,
+
+  // Date utilities
+  DateUtils,
+
+  // Engagement utilities
+  EngagementUtils,
+
+  // URI utilities
+  UriUtils,
+
+  // Batch processing
+  BatchUtils,
+} from './utils/index.js';

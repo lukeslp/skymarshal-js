@@ -1,8 +1,8 @@
 {
   "name": "skymarshal-core",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "description": "Bluesky content management toolkit - authentication, data management, search, and engagement analysis",
+  "description": "Comprehensive Bluesky/AT Protocol toolkit - authentication, content management, network analysis, chat, analytics, backup, vision AI, and sentiment analysis",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -14,9 +14,41 @@
       "types": "./dist/managers/auth.d.ts",
       "import": "./dist/managers/auth.js"
     },
+    "./content": {
+      "types": "./dist/managers/content.d.ts",
+      "import": "./dist/managers/content.js"
+    },
+    "./network": {
+      "types": "./dist/managers/network.d.ts",
+      "import": "./dist/managers/network.js"
+    },
+    "./chat": {
+      "types": "./dist/managers/chat.d.ts",
+      "import": "./dist/managers/chat.js"
+    },
+    "./analytics": {
+      "types": "./dist/managers/analytics.d.ts",
+      "import": "./dist/managers/analytics.js"
+    },
     "./search": {
       "types": "./dist/managers/search.d.ts",
       "import": "./dist/managers/search.js"
+    },
+    "./backup": {
+      "types": "./dist/services/backup.d.ts",
+      "import": "./dist/services/backup.js"
+    },
+    "./vision": {
+      "types": "./dist/services/vision.d.ts",
+      "import": "./dist/services/vision.js"
+    },
+    "./sentiment": {
+      "types": "./dist/services/sentiment.d.ts",
+      "import": "./dist/services/sentiment.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
     },
     "./models": {
       "types": "./dist/models/index.d.ts",
@@ -40,6 +72,15 @@
     "search",
     "engagement",
     "analytics",
+    "bot-detection",
+    "chat",
+    "dm",
+    "backup",
+    "car",
+    "vision",
+    "alt-text",
+    "sentiment",
+    "network-analysis",
     "typescript"
   ],
   "author": "Luke Steuber <luke@lukesteuber.com>",
@@ -59,7 +100,8 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=18.0.0"
