@@ -1,5 +1,6 @@
 /**
- * VisionService - AI-powered image description and alt text generation
+ * VisionService - Image description and alt text generation
+ * Supports: Ollama (local), OpenAI, Anthropic, xAI/Grok
  * @module skymarshal-core/services/vision
  */
 /** Default prompts for alt text generation */
@@ -16,7 +17,8 @@ const DEFAULT_MODELS = {
     xai: 'grok-2-vision-1212',
 };
 /**
- * VisionService - Generates alt text and analyzes images using AI
+ * VisionService - Generates alt text and analyzes images
+ * Supports multiple providers: Ollama (local), OpenAI, Anthropic, xAI/Grok
  */
 export class VisionService {
     configs = new Map();

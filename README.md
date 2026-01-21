@@ -2,7 +2,7 @@
 
 **Comprehensive Bluesky/AT Protocol toolkit for TypeScript/JavaScript**
 
-skymarshal provides everything you need to build Bluesky applications: authentication, content management, network analysis, chat/DMs, notifications, profile management, lists, feeds, bot detection, backup, AI-powered alt text, and sentiment analysis.
+skymarshal provides everything you need to build Bluesky applications: authentication, content management, network analysis, chat/DMs, notifications, profile management, lists, feeds, bot detection, backup, alt text generation, and sentiment analysis.
 
 ## Installation
 
@@ -97,7 +97,7 @@ console.log(`Found ${analysis.filter(a => a.botScore > 0.5).length} suspicious a
 | Service | Description |
 |---------|-------------|
 | **BackupService** | CAR file export for account backup |
-| **VisionService** | AI-powered alt text generation (OpenAI, Anthropic, Ollama) |
+| **VisionService** | Alt text generation (Ollama, OpenAI, Anthropic, xAI/Grok) |
 | **SentimentService** | VADER-based text sentiment analysis |
 
 ## Utilities
