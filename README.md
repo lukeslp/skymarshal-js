@@ -456,7 +456,7 @@ import type {
 
 - **[@atproto/api](https://www.npmjs.com/package/@atproto/api)** - AT Protocol client (peer dependency)
 - **[skymarshal (PyPI)](https://pypi.org/project/skymarshal/)** - Python CLI version
-- **[Skymarshal Web](https://github.com/lukeslp/bsky-follow-analyzer)** - Web UI built with this package
+- **[Skymarshal Web](https://github.com/lukeslp/skymarshal-js)** - Web UI and documentation
 
 ## License
 
