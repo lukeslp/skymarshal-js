@@ -1,6 +1,6 @@
 # Thread Utilities
 
-Thread fetching and caching utilities for Bluesky post threads, ported from [bluesky-accordion-client](https://github.com/lukeslp/bluesky-tools/tree/main/bluesky/bluesky-accordion-client) to work with `@atproto/api`.
+Thread fetching and caching utilities for Bluesky post threads, ported from [skymarshal-js](https://github.com/lukeslp/skymarshal-js) to work with `@atproto/api`.
 
 ## Features
 

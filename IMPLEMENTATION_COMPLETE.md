@@ -323,7 +323,7 @@ test('resolvePostUrl converts URL to AT-URI', async () => {
 **Original Implementation:**
 - Author: Luke Steuber
 - Source: bluesky-accordion-client
-- Repository: https://github.com/lukeslp/bluesky-tools
+- Repository: https://github.com/lukeslp/skymarshal-js
 
 **Port to skymarshal-core:**
 - Date: January 22, 2026

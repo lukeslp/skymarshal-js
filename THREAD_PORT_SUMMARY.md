@@ -220,7 +220,7 @@ Both can coexist. Use:
 ## Credits
 
 Original implementation: Luke Steuber
-Source: [bluesky-accordion-client](https://github.com/lukeslp/bluesky-tools/tree/main/bluesky/bluesky-accordion-client)
+Source: [skymarshal-js](https://github.com/lukeslp/skymarshal-js)
 Port date: January 22, 2026
 
 ## Next Steps
