@@ -229,6 +229,16 @@ export {
   SentimentService,
   type SentimentScore,
   type BatchSentimentResult,
+
+  // Real-time Streaming (v2.3.0)
+  JetstreamService,
+  type JetstreamOptions,
+  type JetstreamEvent,
+  type JetstreamCommitEvent,
+  type JetstreamIdentityEvent,
+  type JetstreamAccountEvent,
+  type JetstreamPost,
+  type EventHandler,
 } from './services/index.js';
 
 // ============================================================================
@@ -348,6 +358,37 @@ export {
   type CleanupResult,
   type PostContent,
   type PostType,
+
+  // Rate limiting (v2.3.0)
+  RateLimiter,
+  RateLimiterManager,
+  RateLimiterPresets,
+  type RateLimiterConfig,
+
+  // Retry logic (v2.3.0)
+  withRetry,
+  createRetryable,
+  RetryPresets,
+  type RetryConfig,
+  type HttpError,
+
+  // Follower ranking (v2.3.0)
+  type InfluenceTier,
+  type RankableProfile,
+  type InfluenceMetrics,
+  type RankedProfile,
+  type ProfilesByTier,
+  calculateRatio,
+  getInfluenceTier,
+  calculateInfluenceScore as calculateInfluence,
+  calculateInfluenceMetrics,
+  rankByInfluence,
+  groupByTier,
+  getTopInfluencers,
+  filterByMinScore,
+  filterByTier,
+  getInfluenceStats,
+  compareInfluence,
 } from './utils/index.js';
 
 // ============================================================================
