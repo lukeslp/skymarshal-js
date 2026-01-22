@@ -86,6 +86,10 @@
       "types": "./dist/utils/image.d.ts",
       "import": "./dist/utils/image.js"
     },
+    "./threads": {
+      "types": "./dist/utils/threads.d.ts",
+      "import": "./dist/utils/threads.js"
+    },
     "./deletion": {
       "types": "./dist/managers/deletion.d.ts",
       "import": "./dist/managers/deletion.js"
