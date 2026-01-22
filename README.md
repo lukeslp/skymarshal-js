@@ -415,6 +415,7 @@ Full TypeScript support with exported types:
 
 ```typescript
 import type {
+  // Core types
   Profile,
   Post,
   Notification,
@@ -425,6 +426,29 @@ import type {
   AccountAnalysis,
   BotSignal,
   EngagementPreset,
+
+  // Thread types (v2.2.0)
+  ThreadPost,
+
+  // Graph types (v2.2.0)
+  GraphNode,
+  GraphEdge,
+  Community,
+  GraphMetrics,
+  OrbitDistribution,
+
+  // Analytics types (v2.2.0)
+  PostEngagement,
+  AccountMetrics,
+  AccountProfile,
+  CleanupResult,
+  PostType,
+
+  // Manager types (v2.2.0)
+  EngagementMetrics,
+  DeletionOptions,
+  DeletionResult,
+  ParsedAtUri,
 } from 'skymarshal';
 ```
 
