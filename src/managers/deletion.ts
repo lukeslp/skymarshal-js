@@ -57,6 +57,7 @@ export interface ParsedAtUri {
 
 /**
  * Custom error for validation failures
+ * @deprecated Use ValidationError from 'skymarshal-core/errors' instead
  */
 export class ValidationError extends Error {
   constructor(message: string) {
@@ -67,6 +68,7 @@ export class ValidationError extends Error {
 
 /**
  * Custom error for network failures
+ * @deprecated Use NetworkError from 'skymarshal-core/errors' instead
  */
 export class NetworkError extends Error {
   constructor(

@@ -114,3 +114,11 @@ export {
   EngagementManager,
   type EngagementMetrics,
 } from './engagement.js';
+
+export {
+  RelationshipManager,
+  type UnfollowRule,
+  type BulkUnfollowOptions,
+  type BulkOperationResult,
+  type UnfollowByRuleOptions,
+} from './relationship.js';

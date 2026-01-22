@@ -17,4 +17,5 @@ export { FeedsManager, type FeedGenerator, type FeedPost, type SavedFeed, } from
 export { MediaManager, type UploadedBlob, type ImageUploadOptions, type VideoUploadOptions, type EmbedImage, type ImageEmbed, } from './media.js';
 export { DeletionManager, ValidationError, NetworkError, type DeletionOptions, type DeletionResult, type ParsedAtUri, } from './deletion.js';
 export { EngagementManager, type EngagementMetrics, } from './engagement.js';
+export { RelationshipManager, type UnfollowRule, type BulkUnfollowOptions, type BulkOperationResult, type UnfollowByRuleOptions, } from './relationship.js';
 //# sourceMappingURL=index.d.ts.map

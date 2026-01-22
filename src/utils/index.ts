@@ -31,6 +31,32 @@ export * from './graph.js';
 // Re-export analytics utilities
 export * from './analytics.js';
 
+// Re-export follower ranking analytics (excluding calculateEngagementRate to avoid conflict)
+export {
+  type InfluenceTier,
+  type RankableProfile,
+  type InfluenceMetrics,
+  type RankedProfile,
+  type ProfilesByTier,
+  calculateRatio,
+  getInfluenceTier,
+  calculateInfluenceScore,
+  calculateInfluenceMetrics,
+  rankByInfluence,
+  groupByTier,
+  getTopInfluencers,
+  filterByMinScore,
+  filterByTier,
+  getInfluenceStats,
+  compareInfluence,
+} from './analytics/followerRanking.js';
+
+// Re-export rate limiter utilities
+export * from './rateLimiter.js';
+
+// Re-export retry utilities
+export * from './retry.js';
+
 /**
  * Cache entry with TTL
  */

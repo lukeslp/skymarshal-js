@@ -46,6 +46,10 @@
       "types": "./dist/services/sentiment.d.ts",
       "import": "./dist/services/sentiment.js"
     },
+    "./jetstream": {
+      "types": "./dist/services/JetstreamService.d.ts",
+      "import": "./dist/services/JetstreamService.js"
+    },
     "./utils": {
       "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.js"

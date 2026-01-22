@@ -49,6 +49,16 @@
  * @packageDocumentation
  */
 // ============================================================================
+// Errors - Centralized error hierarchy (v2.2.0+)
+// ============================================================================
+export { 
+// Base error
+SkymarshalError, 
+// Specific errors
+AuthenticationError as SkymarshalAuthenticationError, NetworkError as SkymarshalNetworkError, ValidationError as SkymarshalValidationError, RateLimitError, NotFoundError, PermissionError, TimeoutError, ServerError, 
+// Helper functions
+isRetryableError, } from './errors/index.js';
+// ============================================================================
 // Models - Core data structures
 // ============================================================================
 export { 

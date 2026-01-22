@@ -29,3 +29,14 @@ export {
   type SentimentScore,
   type BatchSentimentResult,
 } from './sentiment.js';
+
+export {
+  JetstreamService,
+  type JetstreamOptions,
+  type JetstreamEvent,
+  type JetstreamCommitEvent,
+  type JetstreamIdentityEvent,
+  type JetstreamAccountEvent,
+  type JetstreamPost,
+  type EventHandler,
+} from './JetstreamService.js';

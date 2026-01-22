@@ -224,6 +224,7 @@ export class AuthManager {
 }
 /**
  * Authentication error
+ * @deprecated Use AuthenticationError from 'skymarshal-core/errors' instead
  */
 export class AuthenticationError extends Error {
     cause;

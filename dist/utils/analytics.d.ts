@@ -43,6 +43,26 @@ export interface AccountProfile extends AccountMetrics {
     bio?: string;
     displayName?: string;
     avatar?: string;
+    handle?: string;
+    createdAt?: string;
+}
+/**
+ * Individual bot signal detection result
+ */
+export interface BotSignal {
+    name: string;
+    detected: boolean;
+    score: number;
+    description: string;
+}
+/**
+ * Enhanced bot detection result with signal breakdown
+ */
+export interface BotAnalysisResult extends AccountProfile {
+    signals: BotSignal[];
+    totalScore: number;
+    category: 'bot_likely' | 'low_quality' | 'suspicious' | 'clean';
+    isLegitimate: boolean;
 }
 /**
  * Cleanup/bot detection result
@@ -158,6 +178,106 @@ export declare function calculatePopularityScore(metrics: AccountMetrics): numbe
  * @returns Complete popularity analysis
  */
 export declare function analyzeAccountPopularity(metrics: AccountMetrics): PopularityResult;
+/**
+ * Check if handle matches default pattern (e.g., user12345.bsky.social)
+ *
+ * @param handle - Account handle
+ * @returns True if handle matches default pattern
+ */
+export declare function hasDefaultHandle(handle?: string): boolean;
+/**
+ * Check if bio contains suspicious URL patterns
+ *
+ * @param bio - Account bio text
+ * @returns True if bio contains suspicious patterns
+ */
+export declare function hasSuspiciousUrls(bio?: string): boolean;
+/**
+ * Check if following count is exactly a round number (1000, 2000, 5000, 10000)
+ *
+ * @param following - Following count
+ * @returns True if following is exactly a round number
+ */
+export declare function hasRoundFollowingCount(following: number): boolean;
+/**
+ * Calculate account age in days
+ *
+ * @param createdAt - ISO timestamp of account creation
+ * @returns Age in days, or null if createdAt invalid
+ */
+export declare function getAccountAgeInDays(createdAt?: string): number | null;
+/**
+ * Analyze account for bot signals with detailed breakdown
+ *
+ * Detects 13 bot/spam signals:
+ * 1. massFollowing: Following > 1000 with followers < 100 (score: 3)
+ * 2. veryLowRatio: Ratio < 0.02 with following > 500 (score: 2)
+ * 3. noPostsMassFollow: 0 posts but following > 100 (score: 3)
+ * 4. roundFollowingCount: Exactly 1000, 2000, 5000, or 10000 following (score: 1)
+ * 5. noProfileInfo: Missing both displayName AND bio (score: 2)
+ * 6. newAccountMassFollow: Account < 30 days old with following > 500 (score: 2)
+ * 7. suspiciousUrls: Bio contains spam/scam URL patterns (score: 3)
+ * 8. defaultHandle: Handle matches user12345 pattern (score: 2)
+ * 9. noBio: Missing bio (score: 1)
+ * 10. noAvatar: Missing profile picture (score: 1)
+ * 11. fewFollowers: < 10 followers (score: 2)
+ * 12. poorRatio: Ratio < 0.1 with following > 100 (score: 2)
+ * 13. followingMany: Following > 5000 (score: 1)
+ *
+ * Categories:
+ * - bot_likely: Score >= 8
+ * - low_quality: Score >= 5
+ * - suspicious: Score >= 3
+ * - clean: Score < 3
+ *
+ * @param profile - Account profile with metrics and metadata
+ * @returns Detailed bot analysis with signal breakdown
+ *
+ * @example
+ * ```ts
+ * const result = analyzeBotSignals({
+ *   followers: 5,
+ *   following: 1000,
+ *   posts: 0,
+ *   bio: '',
+ *   displayName: '',
+ *   handle: 'user12345.bsky.social',
+ *   createdAt: '2024-01-15T00:00:00Z'
+ * });
+ * // Returns high bot score with multiple signals detected
+ * ```
+ */
+export declare function analyzeBotSignals(profile: AccountProfile): BotAnalysisResult;
+/**
+ * Check if an account is likely a bot based on signal analysis
+ *
+ * @param profile - Account profile details
+ * @param threshold - Score threshold (default: 8 for 'bot_likely')
+ * @returns True if bot score >= threshold
+ */
+export declare function isLikelyBotEnhanced(profile: AccountProfile, threshold?: number): boolean;
+/**
+ * Batch analyze multiple accounts for bot signals
+ *
+ * @param accounts - Array of account profiles
+ * @returns Array of bot analysis results
+ */
+export declare function batchAnalyzeBotSignals(accounts: AccountProfile[]): BotAnalysisResult[];
+/**
+ * Calculate summary statistics for bot analysis results
+ *
+ * @param results - Array of bot analysis results
+ * @returns Summary with category counts and common signals
+ */
+export declare function calculateBotAnalysisSummary(results: BotAnalysisResult[]): {
+    totalAccounts: number;
+    botLikely: number;
+    lowQuality: number;
+    suspicious: number;
+    clean: number;
+    avgScore: number;
+    commonSignals: Record<string, number>;
+};
 /**
  * Calculate cleanup score for an account (higher = more likely bot/low-value)
  *

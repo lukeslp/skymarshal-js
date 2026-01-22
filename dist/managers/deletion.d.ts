@@ -54,12 +54,14 @@ export interface ParsedAtUri {
 }
 /**
  * Custom error for validation failures
+ * @deprecated Use ValidationError from 'skymarshal-core/errors' instead
  */
 export declare class ValidationError extends Error {
     constructor(message: string);
 }
 /**
  * Custom error for network failures
+ * @deprecated Use NetworkError from 'skymarshal-core/errors' instead
  */
 export declare class NetworkError extends Error {
     readonly statusCode?: number | undefined;

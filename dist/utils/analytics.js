@@ -139,6 +139,355 @@ export function analyzeAccountPopularity(metrics) {
     };
 }
 // ============================================================================
+// Bot Detection Utilities
+// ============================================================================
+/**
+ * Check if handle matches default pattern (e.g., user12345.bsky.social)
+ *
+ * @param handle - Account handle
+ * @returns True if handle matches default pattern
+ */
+export function hasDefaultHandle(handle) {
+    if (!handle)
+        return false;
+    // Pattern: user followed by digits, optionally .bsky.social
+    const defaultPattern = /^user\d+(?:\.bsky\.social)?$/i;
+    return defaultPattern.test(handle);
+}
+/**
+ * Check if bio contains suspicious URL patterns
+ *
+ * @param bio - Account bio text
+ * @returns True if bio contains suspicious patterns
+ */
+export function hasSuspiciousUrls(bio) {
+    if (!bio)
+        return false;
+    const suspiciousPatterns = [
+        /bit\.ly/i, // URL shortener spam
+        /tinyurl/i, // URL shortener spam
+        /t\.co/i, // Twitter URL shortener (often spam)
+        /crypto/i, // Crypto scam keywords
+        /nft/i, // NFT scam keywords
+        /airdrop/i, // Airdrop scam
+        /giveaway/i, // Giveaway scam
+        /discord\.gg/i, // Discord invite spam
+        /telegram\.me/i, // Telegram spam
+        /whatsapp/i, // WhatsApp spam
+    ];
+    return suspiciousPatterns.some(pattern => pattern.test(bio));
+}
+/**
+ * Check if following count is exactly a round number (1000, 2000, 5000, 10000)
+ *
+ * @param following - Following count
+ * @returns True if following is exactly a round number
+ */
+export function hasRoundFollowingCount(following) {
+    return [1000, 2000, 5000, 10000].includes(following);
+}
+/**
+ * Calculate account age in days
+ *
+ * @param createdAt - ISO timestamp of account creation
+ * @returns Age in days, or null if createdAt invalid
+ */
+export function getAccountAgeInDays(createdAt) {
+    if (!createdAt)
+        return null;
+    try {
+        const created = new Date(createdAt);
+        const now = new Date();
+        const diffMs = now.getTime() - created.getTime();
+        return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    }
+    catch {
+        return null;
+    }
+}
+// ============================================================================
+// Enhanced Bot Detection with Signal Analysis
+// ============================================================================
+/**
+ * Analyze account for bot signals with detailed breakdown
+ *
+ * Detects 13 bot/spam signals:
+ * 1. massFollowing: Following > 1000 with followers < 100 (score: 3)
+ * 2. veryLowRatio: Ratio < 0.02 with following > 500 (score: 2)
+ * 3. noPostsMassFollow: 0 posts but following > 100 (score: 3)
+ * 4. roundFollowingCount: Exactly 1000, 2000, 5000, or 10000 following (score: 1)
+ * 5. noProfileInfo: Missing both displayName AND bio (score: 2)
+ * 6. newAccountMassFollow: Account < 30 days old with following > 500 (score: 2)
+ * 7. suspiciousUrls: Bio contains spam/scam URL patterns (score: 3)
+ * 8. defaultHandle: Handle matches user12345 pattern (score: 2)
+ * 9. noBio: Missing bio (score: 1)
+ * 10. noAvatar: Missing profile picture (score: 1)
+ * 11. fewFollowers: < 10 followers (score: 2)
+ * 12. poorRatio: Ratio < 0.1 with following > 100 (score: 2)
+ * 13. followingMany: Following > 5000 (score: 1)
+ *
+ * Categories:
+ * - bot_likely: Score >= 8
+ * - low_quality: Score >= 5
+ * - suspicious: Score >= 3
+ * - clean: Score < 3
+ *
+ * @param profile - Account profile with metrics and metadata
+ * @returns Detailed bot analysis with signal breakdown
+ *
+ * @example
+ * ```ts
+ * const result = analyzeBotSignals({
+ *   followers: 5,
+ *   following: 1000,
+ *   posts: 0,
+ *   bio: '',
+ *   displayName: '',
+ *   handle: 'user12345.bsky.social',
+ *   createdAt: '2024-01-15T00:00:00Z'
+ * });
+ * // Returns high bot score with multiple signals detected
+ * ```
+ */
+export function analyzeBotSignals(profile) {
+    const signals = [];
+    let totalScore = 0;
+    const followerRatio = calculateFollowerRatio(profile.followers, profile.following);
+    const accountAge = getAccountAgeInDays(profile.createdAt);
+    // Signal 1: Mass following with few followers
+    const massFollowing = profile.following > 1000 && profile.followers < 100;
+    if (massFollowing) {
+        const score = 3;
+        signals.push({
+            name: 'massFollowing',
+            detected: true,
+            score,
+            description: `Following ${profile.following} but only ${profile.followers} followers`,
+        });
+        totalScore += score;
+    }
+    // Signal 2: Very low ratio with high following
+    const veryLowRatio = profile.following > 500 && followerRatio < 0.02;
+    if (veryLowRatio) {
+        const score = 2;
+        signals.push({
+            name: 'veryLowRatio',
+            detected: true,
+            score,
+            description: `Follower ratio ${followerRatio.toFixed(3)} is extremely low`,
+        });
+        totalScore += score;
+    }
+    // Signal 3: No posts but mass following
+    const noPostsMassFollow = profile.posts === 0 && profile.following > 100;
+    if (noPostsMassFollow) {
+        const score = 3;
+        signals.push({
+            name: 'noPostsMassFollow',
+            detected: true,
+            score,
+            description: `No posts but following ${profile.following} accounts`,
+        });
+        totalScore += score;
+    }
+    // Signal 4: Round following count (bot pattern)
+    const roundFollowing = hasRoundFollowingCount(profile.following);
+    if (roundFollowing) {
+        const score = 1;
+        signals.push({
+            name: 'roundFollowingCount',
+            detected: true,
+            score,
+            description: `Following exactly ${profile.following} (suspicious round number)`,
+        });
+        totalScore += score;
+    }
+    // Signal 5: No profile info (missing both display name and bio)
+    const noProfileInfo = !profile.displayName?.trim() && !profile.bio?.trim();
+    if (noProfileInfo) {
+        const score = 2;
+        signals.push({
+            name: 'noProfileInfo',
+            detected: true,
+            score,
+            description: 'Missing both display name and bio',
+        });
+        totalScore += score;
+    }
+    // Signal 6: New account with mass following
+    const newAccountMassFollow = accountAge !== null && accountAge < 30 && profile.following > 500;
+    if (newAccountMassFollow) {
+        const score = 2;
+        signals.push({
+            name: 'newAccountMassFollow',
+            detected: true,
+            score,
+            description: `Account only ${accountAge} days old but following ${profile.following}`,
+        });
+        totalScore += score;
+    }
+    // Signal 7: Suspicious URLs in bio
+    const suspiciousUrls = hasSuspiciousUrls(profile.bio);
+    if (suspiciousUrls) {
+        const score = 3;
+        signals.push({
+            name: 'suspiciousUrls',
+            detected: true,
+            score,
+            description: 'Bio contains suspicious URL patterns (spam/scam)',
+        });
+        totalScore += score;
+    }
+    // Signal 8: Default handle pattern
+    const defaultHandle = hasDefaultHandle(profile.handle);
+    if (defaultHandle) {
+        const score = 2;
+        signals.push({
+            name: 'defaultHandle',
+            detected: true,
+            score,
+            description: `Handle "${profile.handle}" matches default pattern`,
+        });
+        totalScore += score;
+    }
+    // Signal 9: No bio (standalone check)
+    if (!profile.bio?.trim()) {
+        const score = 1;
+        signals.push({
+            name: 'noBio',
+            detected: true,
+            score,
+            description: 'No bio',
+        });
+        totalScore += score;
+    }
+    // Signal 10: No avatar
+    if (!profile.avatar) {
+        const score = 1;
+        signals.push({
+            name: 'noAvatar',
+            detected: true,
+            score,
+            description: 'No profile picture',
+        });
+        totalScore += score;
+    }
+    // Signal 11: Few followers
+    if (profile.followers < 10) {
+        const score = 2;
+        signals.push({
+            name: 'fewFollowers',
+            detected: true,
+            score,
+            description: `Only ${profile.followers} followers`,
+        });
+        totalScore += score;
+    }
+    // Signal 12: Poor ratio (broader check)
+    const poorRatio = followerRatio < 0.1 && profile.following > 100;
+    if (poorRatio) {
+        const score = 2;
+        signals.push({
+            name: 'poorRatio',
+            detected: true,
+            score,
+            description: `Poor follower ratio ${followerRatio.toFixed(3)}`,
+        });
+        totalScore += score;
+    }
+    // Signal 13: Following many accounts
+    if (profile.following > 5000) {
+        const score = 1;
+        signals.push({
+            name: 'followingMany',
+            detected: true,
+            score,
+            description: `Following ${profile.following} accounts`,
+        });
+        totalScore += score;
+    }
+    // Determine category based on total score
+    let category;
+    if (totalScore >= 8) {
+        category = 'bot_likely';
+    }
+    else if (totalScore >= 5) {
+        category = 'low_quality';
+    }
+    else if (totalScore >= 3) {
+        category = 'suspicious';
+    }
+    else {
+        category = 'clean';
+    }
+    // Check if account is legitimate (bonus criteria)
+    const isLegitimate = profile.followers > 100 &&
+        profile.posts > 10 &&
+        !!profile.bio?.trim() &&
+        !!profile.avatar &&
+        followerRatio > 0.5;
+    return {
+        ...profile,
+        signals,
+        totalScore,
+        category,
+        isLegitimate,
+    };
+}
+/**
+ * Check if an account is likely a bot based on signal analysis
+ *
+ * @param profile - Account profile details
+ * @param threshold - Score threshold (default: 8 for 'bot_likely')
+ * @returns True if bot score >= threshold
+ */
+export function isLikelyBotEnhanced(profile, threshold = 8) {
+    const result = analyzeBotSignals(profile);
+    return result.totalScore >= threshold;
+}
+/**
+ * Batch analyze multiple accounts for bot signals
+ *
+ * @param accounts - Array of account profiles
+ * @returns Array of bot analysis results
+ */
+export function batchAnalyzeBotSignals(accounts) {
+    return accounts.map(analyzeBotSignals);
+}
+/**
+ * Calculate summary statistics for bot analysis results
+ *
+ * @param results - Array of bot analysis results
+ * @returns Summary with category counts and common signals
+ */
+export function calculateBotAnalysisSummary(results) {
+    const botLikely = results.filter(r => r.category === 'bot_likely').length;
+    const lowQuality = results.filter(r => r.category === 'low_quality').length;
+    const suspicious = results.filter(r => r.category === 'suspicious').length;
+    const clean = results.filter(r => r.category === 'clean').length;
+    const avgScore = results.length > 0
+        ? results.reduce((sum, r) => sum + r.totalScore, 0) / results.length
+        : 0;
+    // Count common signals
+    const commonSignals = {};
+    results.forEach(result => {
+        result.signals.forEach(signal => {
+            if (signal.detected) {
+                commonSignals[signal.name] = (commonSignals[signal.name] || 0) + 1;
+            }
+        });
+    });
+    return {
+        totalAccounts: results.length,
+        botLikely,
+        lowQuality,
+        suspicious,
+        clean,
+        avgScore,
+        commonSignals,
+    };
+}
+// ============================================================================
 // Cleanup/Bot Scoring (from bluefry.py)
 // ============================================================================
 /**

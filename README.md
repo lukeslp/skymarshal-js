@@ -316,6 +316,7 @@ const { repo, collection, rkey } = parseAtUri('at://did:plc:xyz/app.bsky.feed.po
 | **BackupService** | CAR file export for account backup |
 | **VisionService** | Alt text generation (Ollama, OpenAI, Anthropic, xAI/Grok) |
 | **SentimentService** | VADER-based text sentiment analysis |
+| **JetstreamService** | Real-time Bluesky firehose streaming via WebSocket |
 
 ### VisionService Providers
 
@@ -349,6 +350,70 @@ console.log(analysis.accessibility.altText);
 | OpenAI | gpt-4o-mini | Cloud API |
 | Anthropic | claude-3-haiku | Cloud API |
 | xAI/Grok | grok-2-vision-1212 | Cloud API |
+
+### JetstreamService - Real-time Firehose
+
+Stream real-time posts, likes, follows, and other events from the Bluesky network:
+
+```typescript
+import { JetstreamService } from 'skymarshal/jetstream';
+
+const jetstream = new JetstreamService({
+  wantedCollections: ['app.bsky.feed.post', 'app.bsky.feed.like'],
+  reconnectOnError: true,
+  maxReconnectAttempts: 5
+});
+
+// Connect to Jetstream
+await jetstream.connect();
+
+// Event listener pattern
+jetstream.on('post', (post) => {
+  console.log(`${post.authorHandle}: ${post.text}`);
+});
+
+jetstream.on('commit', (event) => {
+  console.log('Commit:', event.commit.collection, event.commit.operation);
+});
+
+// Async iterator pattern
+for await (const post of jetstream.streamPosts()) {
+  console.log('New post:', post.text);
+  if (shouldStop) break;
+}
+
+// Stream from specific user
+for await (const event of jetstream.streamFromDid('did:plc:...')) {
+  console.log('User action:', event.kind);
+}
+
+// Stream mentions of a handle
+for await (const post of jetstream.streamMentions('alice.bsky.social')) {
+  console.log('Mention:', post.text);
+}
+
+// Disconnect when done
+await jetstream.disconnect();
+```
+
+**Features:**
+- Browser-compatible WebSocket (native API)
+- Auto-reconnect with exponential backoff
+- Filter by collections and DIDs at source
+- EventEmitter-style API with `on`/`off` methods
+- Async iterator support for streaming
+- DID → handle cache from identity events
+- Full TypeScript types
+
+**Available Collections:**
+- `app.bsky.feed.post` - Posts
+- `app.bsky.feed.like` - Likes
+- `app.bsky.feed.repost` - Reposts
+- `app.bsky.graph.follow` - Follows
+- `app.bsky.graph.block` - Blocks
+- `app.bsky.actor.profile` - Profile updates
+
+See [JETSTREAM_USAGE.md](src/services/JETSTREAM_USAGE.md) for complete documentation and examples.
 
 ## Utilities
 
@@ -393,6 +458,7 @@ import { DeletionManager } from 'skymarshal/deletion';
 import { VisionService } from 'skymarshal/vision';
 import { BackupService } from 'skymarshal/backup';
 import { SentimentService } from 'skymarshal/sentiment';
+import { JetstreamService } from 'skymarshal/jetstream';
 
 // Utilities (v2.2.0)
 import { fetchThread, PostCache, flattenThread } from 'skymarshal/threads';

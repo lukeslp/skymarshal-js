@@ -12,6 +12,12 @@ export { PostCache, fetchThread, fetchPreviewReplies, flattenThread, resolvePost
 export * from './graph.js';
 // Re-export analytics utilities
 export * from './analytics.js';
+// Re-export follower ranking analytics (excluding calculateEngagementRate to avoid conflict)
+export { calculateRatio, getInfluenceTier, calculateInfluenceScore, calculateInfluenceMetrics, rankByInfluence, groupByTier, getTopInfluencers, filterByMinScore, filterByTier, getInfluenceStats, compareInfluence, } from './analytics/followerRanking.js';
+// Re-export rate limiter utilities
+export * from './rateLimiter.js';
+// Re-export retry utilities
+export * from './retry.js';
 /** Default TTL configuration */
 export const DEFAULT_TTL = {
     recent: 60 * 1000, // 1 minute for very recent posts

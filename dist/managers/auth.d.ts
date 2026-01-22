@@ -133,6 +133,7 @@ export declare class AuthManager {
 }
 /**
  * Authentication error
+ * @deprecated Use AuthenticationError from 'skymarshal-core/errors' instead
  */
 export declare class AuthenticationError extends Error {
     readonly cause?: unknown | undefined;

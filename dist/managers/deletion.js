@@ -13,6 +13,7 @@
 import { isValidAtUri } from '../utils/validation.js';
 /**
  * Custom error for validation failures
+ * @deprecated Use ValidationError from 'skymarshal-core/errors' instead
  */
 export class ValidationError extends Error {
     constructor(message) {
@@ -22,6 +23,7 @@ export class ValidationError extends Error {
 }
 /**
  * Custom error for network failures
+ * @deprecated Use NetworkError from 'skymarshal-core/errors' instead
  */
 export class NetworkError extends Error {
     statusCode;

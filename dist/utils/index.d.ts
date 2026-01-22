@@ -7,6 +7,9 @@ export * from './image.js';
 export { type ThreadPost, PostCache, fetchThread, fetchPreviewReplies, flattenThread, resolvePostUrl, clearPostCache, getPostCache, countThreadPosts, getThreadDepth, findPostInThread, getThreadAuthors, } from './threads.js';
 export * from './graph.js';
 export * from './analytics.js';
+export { type InfluenceTier, type RankableProfile, type InfluenceMetrics, type RankedProfile, type ProfilesByTier, calculateRatio, getInfluenceTier, calculateInfluenceScore, calculateInfluenceMetrics, rankByInfluence, groupByTier, getTopInfluencers, filterByMinScore, filterByTier, getInfluenceStats, compareInfluence, } from './analytics/followerRanking.js';
+export * from './rateLimiter.js';
+export * from './retry.js';
 /**
  * TTL configuration for engagement cache
  * Based on post age for optimal caching

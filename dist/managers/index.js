@@ -17,4 +17,5 @@ export { FeedsManager, } from './feeds.js';
 export { MediaManager, } from './media.js';
 export { DeletionManager, ValidationError, NetworkError, } from './deletion.js';
 export { EngagementManager, } from './engagement.js';
+export { RelationshipManager, } from './relationship.js';
 //# sourceMappingURL=index.js.map
