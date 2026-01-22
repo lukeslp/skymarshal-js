@@ -121,6 +121,57 @@ export {
   type EngagementPreset,
   type EngagementAnalysis,
   type AnalysisStatistics,
+
+  // Notifications
+  NotificationManager,
+  type Notification,
+  type NotificationListOptions,
+  type NotificationListResult,
+
+  // Profile
+  ProfileManager,
+  type ProfileData,
+  type ProfileUpdateInput,
+
+  // Post
+  PostManager,
+  type PostImage,
+  type PostLink,
+  type CreatePostInput,
+  type Post,
+
+  // Lists
+  ListsManager,
+  type ListPurpose,
+  type List,
+  type ListMember,
+  type CreateListInput,
+
+  // Feeds
+  FeedsManager,
+  type FeedGenerator,
+  type FeedPost,
+  type SavedFeed,
+
+  // Media
+  MediaManager,
+  type UploadedBlob,
+  type ImageUploadOptions,
+  type VideoUploadOptions,
+  type EmbedImage,
+  type ImageEmbed,
+
+  // Deletion (v2.2.0)
+  DeletionManager,
+  ValidationError,
+  NetworkError,
+  type DeletionOptions,
+  type DeletionResult,
+  type ParsedAtUri,
+
+  // Engagement (v2.2.0)
+  EngagementManager,
+  type EngagementMetrics,
 } from './managers/index.js';
 
 // ============================================================================
