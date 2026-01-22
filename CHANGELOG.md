@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to skymarshal-core will be documented in this file.
+All notable changes to skymarshal will be documented in this file.
 
 ## [2.0.0] - 2026-01-21
 

@@ -1,6 +1,6 @@
 {
   "name": "skymarshal",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "type": "module",
   "description": "Comprehensive Bluesky/AT Protocol toolkit - authentication, content management, network analysis, chat, analytics, backup, vision AI, and sentiment analysis",
   "main": "./dist/index.js",
