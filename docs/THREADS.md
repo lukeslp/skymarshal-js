@@ -417,7 +417,7 @@ const thread = await fetchThread(auth.agent, uri, 3);
 
 ## Credits
 
-Originally implemented in [bluesky-accordion-client](https://github.com/lukeslp/bluesky-tools/tree/main/bluesky/bluesky-accordion-client) by Luke Steuber.
+Originally implemented in [skymarshal-js](https://github.com/lukeslp/skymarshal-js) by Luke Steuber.
 
 Ported to skymarshal-core with enhancements and @atproto/api integration.
 
