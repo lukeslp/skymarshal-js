@@ -100,3 +100,12 @@ export {
   type EmbedImage,
   type ImageEmbed,
 } from './media.js';
+
+export {
+  DeletionManager,
+  ValidationError,
+  NetworkError,
+  type DeletionOptions,
+  type DeletionResult,
+  type ParsedAtUri,
+} from './deletion.js';
