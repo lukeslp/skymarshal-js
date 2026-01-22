@@ -132,6 +132,164 @@ const batchResults = analytics.batchAnalyze(mutuals);
 const suspicious = batchResults.filter(a => a.botScore > 0.5);
 ```
 
+## v2.2.0 Features
+
+### Thread Management
+
+Fetch and analyze post threads with built-in caching:
+
+```typescript
+import { fetchThread, flattenThread, PostCache, countThreadPosts } from 'skymarshal/threads';
+
+// Thread fetching with cache (5-minute TTL)
+const thread = await fetchThread(auth.agent, 'at://did:plc:xyz/app.bsky.feed.post/abc');
+
+// Flatten nested thread for analysis
+const allPosts = flattenThread(thread);
+console.log(`Thread contains ${countThreadPosts(thread)} posts`);
+
+// Get unique participants
+import { getThreadAuthors } from 'skymarshal/threads';
+const participants = getThreadAuthors(thread);
+
+// Parse Bluesky URLs
+import { parsePostUrl, resolvePostUrl } from 'skymarshal/threads';
+const { handle, postId } = parsePostUrl('https://bsky.app/profile/user.bsky.social/post/abc123');
+const atUri = await resolvePostUrl(auth.agent, 'https://bsky.app/profile/user.bsky.social/post/abc123');
+```
+
+### Analytics & Scoring
+
+Ported from Python (bluebeam, blueye, bluefry) with zero dependencies:
+
+```typescript
+import {
+  calculateEngagementScore,
+  calculateEngagementRate,
+  calculatePopularityScore,
+  calculateCleanupScore,
+  isLikelyBot,
+  getCleanupPriority,
+  classifyPostType,
+} from 'skymarshal/analytics-utils';
+
+// Engagement scoring (weighted: likes 1×, reposts 3×, replies 2×, quotes 4×)
+const score = calculateEngagementScore({
+  likes: 50, reposts: 8, replies: 10, quotes: 3
+}); // = 50 + 24 + 20 + 12 = 106
+
+// Engagement rate as percentage of followers
+const rate = calculateEngagementRate(score, 1000); // 10.6%
+
+// Popularity scoring (50% followers, 30% ratio, 20% activity)
+const popularity = calculatePopularityScore({
+  followers: 5000, following: 200, postsCount: 500
+});
+
+// Bot detection (9 heuristic signals, 0-100+ scale)
+const botScore = calculateCleanupScore(profile);
+const isBot = isLikelyBot(profile); // threshold: 80
+const priority = getCleanupPriority(profile); // 'high' | 'medium' | 'low' | 'none'
+
+// Post type classification
+const type = classifyPostType(post); // 'photo' | 'video' | 'link' | 'long_text' | 'question' | 'text'
+```
+
+### Graph Analysis
+
+Pure TypeScript social graph analysis (no NetworkX dependency):
+
+```typescript
+import {
+  degreeCentrality,
+  betweennessCentrality,
+  calculatePageRank,
+  detectCommunities,
+  calculateModularity,
+  networkDensity,
+  averageClustering,
+  computeGraphMetrics,
+  orbitTier,
+} from 'skymarshal/graph';
+
+// Build graph from followers/following
+const nodes = followers.map(f => ({ id: f.did, handle: f.handle }));
+const edges = relationships.map(r => ({ source: r.from, target: r.to }));
+
+// Centrality metrics
+const degree = degreeCentrality(nodes, edges);
+const betweenness = betweennessCentrality(nodes, edges);
+const pagerank = calculatePageRank(nodes, edges, { damping: 0.85, iterations: 20 });
+
+// Community detection (label propagation)
+const communities = detectCommunities(nodes, edges);
+const quality = calculateModularity(nodes, edges, communities);
+
+// All-in-one analysis
+const metrics = computeGraphMetrics(nodes, edges);
+console.log(`Density: ${metrics.density}, Clustering: ${metrics.clustering}`);
+
+// Orbit classification (0: >20 connections, 1: 5-20, 2: <5)
+const tier = orbitTier(connectionCount);
+```
+
+### Engagement Manager
+
+TTL-based caching with intelligent refresh:
+
+```typescript
+import { EngagementManager } from 'skymarshal/engagement';
+
+const em = new EngagementManager(auth.agent, {
+  // Dynamic TTL based on content age:
+  // - Recent (<1 day): 1 hour cache
+  // - Medium (1-7 days): 6 hour cache
+  // - Old (>7 days): 24 hour cache
+});
+
+// Hydrate posts with fresh engagement metrics
+const posts = await content.getPosts(auth.did!);
+await em.hydrateItems(posts);
+
+// Batch update with concurrency control (10 parallel max)
+await em.batchUpdateEngagement(postUris);
+
+// Check cache statistics
+const stats = em.getStats();
+console.log(`Cache hit rate: ${(stats.hitRate * 100).toFixed(1)}%`);
+```
+
+### Deletion Manager
+
+Safe deletion workflows with backup support:
+
+```typescript
+import { DeletionManager } from 'skymarshal/deletion';
+
+const dm = new DeletionManager(auth.agent);
+
+// Preview deletion (dry run)
+const preview = await dm.previewDeletion(postUri);
+console.log(`Will delete: ${preview.uri}`);
+
+// Safe delete with options
+await dm.safeDelete(postUri, {
+  confirmationRequired: true,
+  deleteFromRemote: true,
+  createBackup: true,
+});
+
+// Batch delete with progress tracking
+const result = await dm.batchDelete(postUris, {
+  onProgress: (completed, total) => console.log(`${completed}/${total}`)
+});
+console.log(`Deleted: ${result.success}, Failed: ${result.failed}`);
+
+// Parse AT-URIs
+import { parseAtUri } from 'skymarshal/deletion';
+const { repo, collection, rkey } = parseAtUri('at://did:plc:xyz/app.bsky.feed.post/abc');
+```
+
 ## Managers
 
 | Manager | Description |
@@ -148,6 +306,8 @@ const suspicious = batchResults.filter(a => a.botScore > 0.5);
 | **MediaManager** | Upload images/videos, create embeds, validate dimensions |
 | **AnalyticsManager** | Bot detection, engagement analysis, dead thread detection |
 | **SearchManager** | Keyword search with operators (`"exact"`, `-exclude`, `+required`) |
+| **EngagementManager** | TTL-based engagement caching with age-aware expiry (v2.2.0) |
+| **DeletionManager** | Safe deletion workflows with backup and confirmation (v2.2.0) |
 
 ## Services
 
