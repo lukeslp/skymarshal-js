@@ -2,6 +2,8 @@
  * Shared utilities for skymarshal-core
  * @module skymarshal-core/utils
  */
+export * from './validation.js';
+export * from './image.js';
 /**
  * TTL configuration for engagement cache
  * Based on post age for optimal caching

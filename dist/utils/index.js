@@ -2,6 +2,10 @@
  * Shared utilities for skymarshal-core
  * @module skymarshal-core/utils
  */
+// Re-export validation utilities
+export * from './validation.js';
+// Re-export image processing utilities
+export * from './image.js';
 /** Default TTL configuration */
 export const DEFAULT_TTL = {
     recent: 60 * 1000, // 1 minute for very recent posts

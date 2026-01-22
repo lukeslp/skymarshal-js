@@ -3,6 +3,12 @@
  * @module skymarshal-core/utils
  */
 
+// Re-export validation utilities
+export * from './validation.js';
+
+// Re-export image processing utilities
+export * from './image.js';
+
 /**
  * Cache entry with TTL
  */

@@ -177,4 +177,65 @@ export {
 
   // Batch processing
   BatchUtils,
+
+  // Validation utilities
+  isValidAtUri,
+  isValidHandle,
+  isValidDid,
+  validatePostText,
+  validateImageFile,
+  sanitizeText,
+  isValidPostUrl,
+  parsePostUrl,
+  detectSpamPatterns,
+  truncateText,
+  validateAltText,
+  type ValidationResult,
+  type PostTextValidation,
+  type SpamDetectionResult,
+  type ParsedPostUrl,
+
+  // Image processing utilities
+  BLUESKY_MAX_SIZE,
+  ACCEPTED_IMAGE_TYPES,
+  getImageDimensions,
+  createPlaceholder,
+  convertHEIC,
+  optimizeForBluesky,
+  resizeImage,
+  processImage,
+  isImageFile,
+  formatFileSize,
+  type ProcessedImage,
+  type ResizeOptions,
+  type ResizedImage,
 } from './utils/index.js';
+
+// ============================================================================
+// Database (Browser-only IndexedDB persistence)
+// ============================================================================
+export {
+  // Schema
+  SCHEMA,
+  STORE_NAMES,
+  type DatabaseSchema,
+  type ObjectStoreDefinition,
+  type StoreIndex,
+  type StoreName,
+
+  // IndexedDB Provider
+  IndexedDBProvider,
+  getDefaultProvider,
+  type IndexedDBProviderConfig,
+  type QueryRange,
+  type OperationResult,
+
+  // Migrations
+  runMigrations,
+  getLatestVersion,
+  hasMigration,
+  getMigration,
+  validateMigrations,
+  migrations,
+  type DBMigration,
+} from './database/index.js';

@@ -99,5 +99,19 @@ EngagementUtils,
 // URI utilities
 UriUtils, 
 // Batch processing
-BatchUtils, } from './utils/index.js';
+BatchUtils, 
+// Validation utilities
+isValidAtUri, isValidHandle, isValidDid, validatePostText, validateImageFile, sanitizeText, isValidPostUrl, parsePostUrl, detectSpamPatterns, truncateText, validateAltText, 
+// Image processing utilities
+BLUESKY_MAX_SIZE, ACCEPTED_IMAGE_TYPES, getImageDimensions, createPlaceholder, convertHEIC, optimizeForBluesky, resizeImage, processImage, isImageFile, formatFileSize, } from './utils/index.js';
+// ============================================================================
+// Database (Browser-only IndexedDB persistence)
+// ============================================================================
+export { 
+// Schema
+SCHEMA, STORE_NAMES, 
+// IndexedDB Provider
+IndexedDBProvider, getDefaultProvider, 
+// Migrations
+runMigrations, getLatestVersion, hasMigration, getMigration, validateMigrations, migrations, } from './database/index.js';
 //# sourceMappingURL=index.js.map

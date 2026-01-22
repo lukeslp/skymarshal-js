@@ -1,6 +1,6 @@
 {
   "name": "skymarshal",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "type": "module",
   "description": "Comprehensive Bluesky/AT Protocol toolkit - authentication, content management, network analysis, chat, analytics, backup, vision AI, and sentiment analysis",
   "main": "./dist/index.js",
@@ -73,6 +73,18 @@
     "./feeds": {
       "types": "./dist/managers/feeds.d.ts",
       "import": "./dist/managers/feeds.js"
+    },
+    "./database": {
+      "types": "./dist/database/index.d.ts",
+      "import": "./dist/database/index.js"
+    },
+    "./validation": {
+      "types": "./dist/utils/validation.d.ts",
+      "import": "./dist/utils/validation.js"
+    },
+    "./image": {
+      "types": "./dist/utils/image.d.ts",
+      "import": "./dist/utils/image.js"
     }
   },
   "scripts": {
@@ -106,6 +118,12 @@
     "posting",
     "lists",
     "feeds",
+    "indexeddb",
+    "persistence",
+    "validation",
+    "image-processing",
+    "heic",
+    "optimization",
     "typescript"
   ],
   "author": "Luke Steuber <luke@lukesteuber.com>",
