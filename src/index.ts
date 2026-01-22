@@ -1,5 +1,5 @@
 /**
- * skymarshal-core 2.0.0
+ * skymarshal-core 2.2.0
  *
  * Comprehensive Bluesky/AT Protocol toolkit for TypeScript/JavaScript.
  *

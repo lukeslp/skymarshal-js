@@ -102,10 +102,6 @@
       "types": "./dist/managers/media.d.ts",
       "import": "./dist/managers/media.js"
     },
-    "./threads": {
-      "types": "./dist/utils/threads.d.ts",
-      "import": "./dist/utils/threads.js"
-    },
     "./graph": {
       "types": "./dist/utils/graph.d.ts",
       "import": "./dist/utils/graph.js"
