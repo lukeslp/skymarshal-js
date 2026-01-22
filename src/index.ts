@@ -1,10 +1,11 @@
 /**
- * skymarshal-core 2.2.0
+ * skymarshal-core 2.3.0
  *
  * Comprehensive Bluesky/AT Protocol toolkit for TypeScript/JavaScript.
  *
  * Provides authentication, content management, network analysis, chat,
- * analytics, backup, vision AI, and sentiment analysis.
+ * analytics, backup, vision AI, sentiment analysis, real-time streaming,
+ * rate limiting, and relationship management.
  *
  * @example
  * ```ts
@@ -50,7 +51,7 @@
  */
 
 // ============================================================================
-// Errors - Centralized error hierarchy (v2.2.0+)
+// Errors - Centralized error hierarchy (v2.2.0+, enhanced v2.3.0)
 // ============================================================================
 export {
   // Base error
@@ -193,6 +194,13 @@ export {
   // Engagement (v2.2.0)
   EngagementManager,
   type EngagementMetrics,
+
+  // Relationship Management (v2.3.0)
+  RelationshipManager,
+  type UnfollowRule,
+  type BulkUnfollowOptions,
+  type BulkOperationResult,
+  type UnfollowByRuleOptions,
 } from './managers/index.js';
 
 // ============================================================================
