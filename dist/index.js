@@ -1,5 +1,5 @@
 /**
- * skymarshal-core 2.0.0
+ * skymarshal-core 2.2.0
  *
  * Comprehensive Bluesky/AT Protocol toolkit for TypeScript/JavaScript.
  *
@@ -71,7 +71,23 @@ NetworkManager,
 // Chat
 ChatManager, 
 // Analytics
-AnalyticsManager, getEngagementPreset, } from './managers/index.js';
+AnalyticsManager, getEngagementPreset, 
+// Notifications
+NotificationManager, 
+// Profile
+ProfileManager, 
+// Post
+PostManager, 
+// Lists
+ListsManager, 
+// Feeds
+FeedsManager, 
+// Media
+MediaManager, 
+// Deletion (v2.2.0)
+DeletionManager, ValidationError, NetworkError, 
+// Engagement (v2.2.0)
+EngagementManager, } from './managers/index.js';
 // ============================================================================
 // Services - Extended functionality
 // ============================================================================
@@ -104,8 +120,12 @@ BatchUtils,
 isValidAtUri, isValidHandle, isValidDid, validatePostText, validateImageFile, sanitizeText, isValidPostUrl, parsePostUrl, detectSpamPatterns, truncateText, validateAltText, 
 // Image processing utilities
 BLUESKY_MAX_SIZE, ACCEPTED_IMAGE_TYPES, getImageDimensions, createPlaceholder, convertHEIC, optimizeForBluesky, resizeImage, processImage, isImageFile, formatFileSize, 
-// Thread utilities
-PostCache, fetchThread, fetchPreviewReplies, flattenThread, clearPostCache, getPostCache, countThreadPosts, getThreadDepth, findPostInThread, getThreadAuthors, resolvePostUrl, } from './utils/index.js';
+// Thread utilities (v2.2.0)
+PostCache, fetchThread, fetchPreviewReplies, flattenThread, clearPostCache, getPostCache, countThreadPosts, getThreadDepth, findPostInThread, getThreadAuthors, resolvePostUrl, 
+// Graph analysis utilities (v2.2.0)
+degreeCentrality, betweennessCentrality, calculatePageRank, detectCommunities, calculateModularity, networkDensity, averageClustering, orbitTier, orbitStrengthDistribution, weightEdges, computeGraphMetrics, 
+// Analytics algorithms (v2.2.0)
+calculateEngagementRate, analyzePostEngagement, calculateFollowerRatio, calculatePopularityScore, analyzeAccountPopularity, calculateCleanupScore, isLikelyBot, getCleanupPriority, classifyPostType, hasLinks, extractHashtags, extractMentions, batchAnalyzePosts, batchAnalyzeAccounts, calculatePostSummary, calculateAccountSummary, } from './utils/index.js';
 // ============================================================================
 // Database (Browser-only IndexedDB persistence)
 // ============================================================================

@@ -92,7 +92,8 @@ export class NotificationManager {
    * Mark all notifications as read up to a specific time
    */
   async markAllRead(seenAt?: string): Promise<void> {
-    await this.agent.updateSeenNotifications(seenAt || new Date().toISOString());
+    const timestamp = seenAt || new Date().toISOString();
+    await this.agent.updateSeenNotifications({ seenAt: timestamp as `${string}-${string}-${string}T${string}:${string}:${string}Z` });
   }
 
   /**
