@@ -1,8 +1,8 @@
 {
   "name": "skymarshal",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "type": "module",
-  "description": "Comprehensive Bluesky/AT Protocol toolkit - authentication, content management, network/graph analysis, thread caching, engagement tracking, deletion workflows, media uploads, chat, analytics, backup, vision AI, and sentiment analysis",
+  "description": "Comprehensive Bluesky/AT Protocol toolkit - authentication, content management, network/graph analysis, thread caching, engagement tracking, deletion workflows, media uploads, chat, analytics, backup, vision AI, sentiment analysis, real-time streaming (Jetstream), rate limiting, retry logic, relationship management, and influence ranking",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -162,7 +162,18 @@
     "engagement-tracking",
     "deletion",
     "ttl-cache",
-    "media-upload"
+    "media-upload",
+    "rate-limiting",
+    "retry-logic",
+    "exponential-backoff",
+    "jetstream",
+    "firehose",
+    "websocket",
+    "real-time",
+    "streaming",
+    "relationship-management",
+    "influence-ranking",
+    "follower-analysis"
   ],
   "author": "Luke Steuber <luke@lukesteuber.com>",
   "license": "MIT",
