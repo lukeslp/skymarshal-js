@@ -261,7 +261,7 @@ export {
   type ResizeOptions,
   type ResizedImage,
 
-  // Thread utilities
+  // Thread utilities (v2.2.0)
   PostCache,
   fetchThread,
   fetchPreviewReplies,
@@ -274,6 +274,51 @@ export {
   getThreadAuthors,
   resolvePostUrl,
   type ThreadPost,
+
+  // Graph analysis utilities (v2.2.0)
+  degreeCentrality,
+  betweennessCentrality,
+  calculatePageRank,
+  detectCommunities,
+  calculateModularity,
+  networkDensity,
+  averageClustering,
+  orbitTier,
+  orbitStrengthDistribution,
+  weightEdges,
+  computeGraphMetrics,
+  type GraphNode,
+  type GraphEdge,
+  type Community,
+  type GraphMetrics,
+  type OrbitTier,
+  type OrbitDistribution,
+
+  // Analytics algorithms (v2.2.0)
+  calculateEngagementRate,
+  analyzePostEngagement,
+  calculateFollowerRatio,
+  calculatePopularityScore,
+  analyzeAccountPopularity,
+  calculateCleanupScore,
+  isLikelyBot,
+  getCleanupPriority,
+  classifyPostType,
+  hasLinks,
+  extractHashtags,
+  extractMentions,
+  batchAnalyzePosts,
+  batchAnalyzeAccounts,
+  calculatePostSummary,
+  calculateAccountSummary,
+  type PostEngagement,
+  type PostEngagementResult,
+  type AccountMetrics,
+  type PopularityResult,
+  type AccountProfile,
+  type CleanupResult,
+  type PostContent,
+  type PostType,
 } from './utils/index.js';
 
 // ============================================================================
