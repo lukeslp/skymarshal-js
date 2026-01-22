@@ -360,6 +360,9 @@ console.log(analysis.accessibility.altText);
 | **DateUtils** | Date formatting, relative time ("2 hours ago") |
 | **BatchUtils** | Batch processing with concurrency control |
 | **UriUtils** | AT URI parsing (extract DID, collection, rkey) |
+| **PostCache** | Thread caching with 5-minute TTL (v2.2.0) |
+| **GraphMetrics** | Centrality, PageRank, community detection (v2.2.0) |
+| **AnalyticsUtils** | Engagement/popularity scoring, bot detection (v2.2.0) |
 
 ### Engagement Scoring
 
@@ -379,9 +382,31 @@ const preset = getEngagementPreset(score, userAverageScore);
 Import only what you need for smaller bundle sizes:
 
 ```typescript
-import { AuthManager } from 'skymarshal/managers';
-import { VisionService } from 'skymarshal/services';
-import { EngagementCache } from 'skymarshal/utils';
+// Managers
+import { AuthManager } from 'skymarshal/auth';
+import { ContentManager } from 'skymarshal/content';
+import { NetworkManager } from 'skymarshal/network';
+import { EngagementManager } from 'skymarshal/engagement';
+import { DeletionManager } from 'skymarshal/deletion';
+
+// Services
+import { VisionService } from 'skymarshal/vision';
+import { BackupService } from 'skymarshal/backup';
+import { SentimentService } from 'skymarshal/sentiment';
+
+// Utilities (v2.2.0)
+import { fetchThread, PostCache, flattenThread } from 'skymarshal/threads';
+import { degreeCentrality, calculatePageRank, detectCommunities } from 'skymarshal/graph';
+import { calculateEngagementScore, isLikelyBot, classifyPostType } from 'skymarshal/analytics-utils';
+
+// Database (browser IndexedDB)
+import { IndexedDBProvider } from 'skymarshal/database';
+
+// Validation
+import { isValidAtUri, isValidHandle, validatePostText } from 'skymarshal/validation';
+
+// Image processing (browser)
+import { processImage, optimizeForBluesky } from 'skymarshal/image';
 ```
 
 ## TypeScript Support
