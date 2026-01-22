@@ -2,6 +2,151 @@
 
 All notable changes to skymarshal will be documented in this file.
 
+## [2.3.0] - 2026-01-22
+
+### Added
+
+#### Rate Limiting (`utils/rateLimiter.ts`)
+**Token bucket algorithm** for API rate limit compliance
+
+- **RateLimiter** - Single-endpoint rate limiter
+  - `acquire()` - Get token (waits if needed)
+  - `tryAcquire()` - Non-blocking token check
+  - `reset()` - Clear token state
+  - `getRemaining()` - Available tokens
+  - `getNextRefillMs()` - Time until next token
+- **RateLimiterManager** - Multi-endpoint coordination
+  - Preconfigured for search, read, write operations
+  - `acquireFor()`, `tryAcquireFor()` - Named endpoint access
+- **RateLimiterPresets** - Production-tuned configurations
+  - `search`: 30 requests/minute
+  - `write`: 100 requests/5 minutes
+  - `read`: 300 requests/minute
+
+#### Retry Logic (`utils/retry.ts`)
+**Exponential backoff with jitter** for resilient API calls
+
+- **withRetry()** - Wrap any async function with retry logic
+  - Automatic retry on transient errors
+  - Respects 429 `Retry-After` headers
+  - Configurable max attempts, delays, jitter
+- **createRetryable()** - Factory for pre-configured retryable functions
+- **RetryPresets** - Ready-to-use configurations
+  - `default`: 3 attempts, 1s base delay
+  - `aggressive`: 5 attempts, 500ms base delay
+  - `gentle`: 2 attempts, 2s base delay
+  - `none`: No retries
+- **Types**: `RetryConfig`, `HttpError`
+
+#### Follower Ranking / Influence Scoring (`utils/analytics/followerRanking.ts`)
+**Influence metrics** for social graph analysis
+
+- **Tier Classification**:
+  - `getInfluenceTier()` - Classify: mega (100k+), macro (10k-100k), micro (1k-10k), nano (<1k)
+- **Scoring Functions**:
+  - `calculateInfluenceScore()` - Composite influence metric (followers, ratio, posts)
+  - `calculateInfluenceMetrics()` - Full metrics with tier, followerRatio, engagementEstimate
+  - `calculateRatio()` - Safe followers/following ratio
+- **Ranking Functions**:
+  - `rankByInfluence()` - Sort profiles by influence score
+  - `groupByTier()` - Organize profiles by tier
+  - `getTopInfluencers()` - Get top N most influential
+  - `filterByMinScore()`, `filterByTier()` - Filter functions
+- **Statistics**:
+  - `getInfluenceStats()` - Aggregate tier distribution stats
+  - `compareInfluence()` - Compare two profiles
+- **Types**: `InfluenceTier`, `RankableProfile`, `InfluenceMetrics`, `RankedProfile`, `ProfilesByTier`
+
+#### RelationshipManager (`managers/relationship.ts`)
+**Relationship analysis and bulk operations**
+
+- **Analysis Methods**:
+  - `getNonFollowers()` - Find who doesn't follow back
+  - `getNonMutuals()` - Alias for non-followers
+  - `getMutualFollowers()` - Find mutual relationships
+  - `getFollowersNotFollowingBack()` - Followers you don't follow
+- **Bulk Operations**:
+  - `bulkUnfollow()` - Mass unfollow with progress callback
+  - `unfollowByRule()` - Conditional unfollow (no posts, poor ratio, bot-like, inactive)
+- **Rules**: `no_posts`, `poor_ratio`, `bot_likely`, `inactive`, `no_avatar`, `no_bio`
+- **Options**: dry run mode, progress tracking, rate limiting
+- **Types**: `UnfollowRule`, `BulkUnfollowOptions`, `BulkOperationResult`, `UnfollowByRuleOptions`
+
+#### JetstreamService (`services/JetstreamService.ts`)
+**Real-time AT Protocol streaming** via WebSocket
+
+- **Connection Management**:
+  - `connect()` - Connect to Jetstream firehose
+  - `disconnect()` - Clean disconnect
+  - `isConnected()` - Connection status
+  - Auto-reconnect with exponential backoff
+- **Event Handling**:
+  - `on()`, `off()` - Event listeners
+  - Events: `post`, `like`, `follow`, `repost`, `identity`, `account`, `error`, `connected`, `disconnected`
+- **Filtering**:
+  - Filter by collection (app.bsky.feed.post, app.bsky.feed.like, etc.)
+  - Filter by DID (specific accounts)
+  - `wantedCollections`, `wantedDids` options
+- **Cursor Support**:
+  - Resume from specific cursor position
+  - `getCursor()` - Get current cursor
+- **Server Options**:
+  - Default: `wss://jetstream2.us-east.bsky.network/subscribe`
+  - Alternative servers supported
+- **Types**: `JetstreamOptions`, `JetstreamEvent`, `JetstreamCommitEvent`, `JetstreamIdentityEvent`, `JetstreamAccountEvent`, `JetstreamPost`, `EventHandler`
+
+#### Enhanced Bot Detection (`utils/analytics.ts`)
+**13 bot detection signals** with confidence scoring
+
+- **High-confidence signals** (40 points each):
+  - `massFollowing` - Following >5000 accounts
+  - `veryLowRatio` - Ratio <0.01 with many following
+  - `noPostsMassFollow` - Zero posts + following >500
+  - `roundFollowingCount` - Exactly round numbers (1000, 5000)
+  - `noProfileInfo` - No bio + no avatar + no display name
+  - `newAccountMassFollow` - Account <30 days with 100+ following
+  - `suspiciousUrls` - Spam patterns in bio/links
+- **Medium-confidence signals** (20 points each):
+  - `defaultHandle` - Auto-generated handle pattern
+  - `noBio` - Missing bio
+  - `noAvatar` - Missing avatar
+- **Low-confidence signals** (15 points each):
+  - `fewFollowers` - Fewer than 10 followers
+  - `poorRatio` - Follower ratio <0.1
+  - `followingMany` - Following >2000 accounts
+- **Categories**: `bot_likely` (≥4 signals), `low_quality` (≥2), `suspicious` (≥1), `clean` (0)
+
+#### Complete Error Hierarchy (`errors/index.ts`)
+**8 specialized error types** with proper inheritance
+
+- **SkymarshalError** - Base error class (extends Error)
+- **AuthenticationError** - Login/session failures
+- **NetworkError** - API communication errors (with statusCode)
+- **ValidationError** - Input validation failures
+- **RateLimitError** - 429 responses (with retryAfter)
+- **NotFoundError** - 404 responses (missing content/users)
+- **PermissionError** - 403 responses (unauthorized actions)
+- **TimeoutError** - Request timeouts
+- **ServerError** - 500+ responses (Bluesky service errors)
+- **Helper**: `isRetryableError()` - Check if error is retryable
+
+### Changed
+- **Version**: 2.2.0 → 2.3.0
+- **Description**: Updated to include real-time streaming, rate limiting, retry logic, relationship management, influence ranking
+- **Keywords**: Added `rate-limiting`, `retry-logic`, `exponential-backoff`, `jetstream`, `firehose`, `websocket`, `real-time`, `streaming`, `relationship-management`, `influence-ranking`, `follower-analysis`
+- **Subpath Exports**: Added 4 new paths
+  - `skymarshal/rate-limiter` - Rate limiting utilities
+  - `skymarshal/retry` - Retry logic utilities
+  - `skymarshal/relationship` - RelationshipManager
+  - `skymarshal/influence` - Follower ranking algorithms
+
+### Performance Improvements
+- Token bucket rate limiting prevents API throttling
+- Exponential backoff with jitter reduces retry thundering herd
+- WebSocket streaming eliminates polling overhead
+- Influence scoring uses efficient O(n) algorithms
+- Bot detection runs in single pass with O(1) signal checks
+
 ## [2.2.0] - 2026-01-22
 
 ### Added
