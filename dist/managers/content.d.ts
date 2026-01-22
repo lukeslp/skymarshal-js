@@ -25,6 +25,7 @@ export interface PostWithEngagement {
     langs?: string[];
     labels?: unknown[];
     engagementScore?: number;
+    engagementCachedAt?: number;
 }
 /** Like record */
 export interface LikeRecord {

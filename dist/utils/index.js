@@ -2,10 +2,16 @@
  * Shared utilities for skymarshal-core
  * @module skymarshal-core/utils
  */
-// Re-export validation utilities
+// Re-export validation utilities (primary source for these utilities)
 export * from './validation.js';
 // Re-export image processing utilities
 export * from './image.js';
+// Re-export thread utilities (excluding duplicates from validation.js)
+export { PostCache, fetchThread, fetchPreviewReplies, flattenThread, resolvePostUrl, clearPostCache, getPostCache, countThreadPosts, getThreadDepth, findPostInThread, getThreadAuthors, } from './threads.js';
+// Re-export graph analysis utilities
+export * from './graph.js';
+// Re-export analytics utilities
+export * from './analytics.js';
 /** Default TTL configuration */
 export const DEFAULT_TTL = {
     recent: 60 * 1000, // 1 minute for very recent posts

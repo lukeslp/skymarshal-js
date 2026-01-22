@@ -109,3 +109,8 @@ export {
   type DeletionResult,
   type ParsedAtUri,
 } from './deletion.js';
+
+export {
+  EngagementManager,
+  type EngagementMetrics,
+} from './engagement.js';

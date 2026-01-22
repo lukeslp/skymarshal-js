@@ -209,6 +209,20 @@ export {
   type ProcessedImage,
   type ResizeOptions,
   type ResizedImage,
+
+  // Thread utilities
+  PostCache,
+  fetchThread,
+  fetchPreviewReplies,
+  flattenThread,
+  clearPostCache,
+  getPostCache,
+  countThreadPosts,
+  getThreadDepth,
+  findPostInThread,
+  getThreadAuthors,
+  resolvePostUrl,
+  type ThreadPost,
 } from './utils/index.js';
 
 // ============================================================================

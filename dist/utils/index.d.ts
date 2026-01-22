@@ -4,6 +4,9 @@
  */
 export * from './validation.js';
 export * from './image.js';
+export { type ThreadPost, PostCache, fetchThread, fetchPreviewReplies, flattenThread, resolvePostUrl, clearPostCache, getPostCache, countThreadPosts, getThreadDepth, findPostInThread, getThreadAuthors, } from './threads.js';
+export * from './graph.js';
+export * from './analytics.js';
 /**
  * TTL configuration for engagement cache
  * Based on post age for optimal caching

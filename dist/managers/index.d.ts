@@ -15,4 +15,6 @@ export { PostManager, type PostImage, type PostLink, type CreatePostInput, type 
 export { ListsManager, type ListPurpose, type List, type ListMember, type CreateListInput, } from './lists.js';
 export { FeedsManager, type FeedGenerator, type FeedPost, type SavedFeed, } from './feeds.js';
 export { MediaManager, type UploadedBlob, type ImageUploadOptions, type VideoUploadOptions, type EmbedImage, type ImageEmbed, } from './media.js';
+export { DeletionManager, ValidationError, NetworkError, type DeletionOptions, type DeletionResult, type ParsedAtUri, } from './deletion.js';
+export { EngagementManager, type EngagementMetrics, } from './engagement.js';
 //# sourceMappingURL=index.d.ts.map

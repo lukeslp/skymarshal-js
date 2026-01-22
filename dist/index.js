@@ -103,7 +103,9 @@ BatchUtils,
 // Validation utilities
 isValidAtUri, isValidHandle, isValidDid, validatePostText, validateImageFile, sanitizeText, isValidPostUrl, parsePostUrl, detectSpamPatterns, truncateText, validateAltText, 
 // Image processing utilities
-BLUESKY_MAX_SIZE, ACCEPTED_IMAGE_TYPES, getImageDimensions, createPlaceholder, convertHEIC, optimizeForBluesky, resizeImage, processImage, isImageFile, formatFileSize, } from './utils/index.js';
+BLUESKY_MAX_SIZE, ACCEPTED_IMAGE_TYPES, getImageDimensions, createPlaceholder, convertHEIC, optimizeForBluesky, resizeImage, processImage, isImageFile, formatFileSize, 
+// Thread utilities
+PostCache, fetchThread, fetchPreviewReplies, flattenThread, clearPostCache, getPostCache, countThreadPosts, getThreadDepth, findPostInThread, getThreadAuthors, resolvePostUrl, } from './utils/index.js';
 // ============================================================================
 // Database (Browser-only IndexedDB persistence)
 // ============================================================================

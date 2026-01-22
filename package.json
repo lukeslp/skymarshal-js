@@ -1,8 +1,8 @@
 {
   "name": "skymarshal",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
-  "description": "Comprehensive Bluesky/AT Protocol toolkit - authentication, content management, network analysis, chat, analytics, backup, vision AI, and sentiment analysis",
+  "description": "Comprehensive Bluesky/AT Protocol toolkit - authentication, content management, network/graph analysis, thread caching, engagement tracking, deletion workflows, media uploads, chat, analytics, backup, vision AI, and sentiment analysis",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -85,6 +85,30 @@
     "./image": {
       "types": "./dist/utils/image.d.ts",
       "import": "./dist/utils/image.js"
+    },
+    "./deletion": {
+      "types": "./dist/managers/deletion.d.ts",
+      "import": "./dist/managers/deletion.js"
+    },
+    "./engagement": {
+      "types": "./dist/managers/engagement.d.ts",
+      "import": "./dist/managers/engagement.js"
+    },
+    "./media": {
+      "types": "./dist/managers/media.d.ts",
+      "import": "./dist/managers/media.js"
+    },
+    "./threads": {
+      "types": "./dist/utils/threads.d.ts",
+      "import": "./dist/utils/threads.js"
+    },
+    "./graph": {
+      "types": "./dist/utils/graph.d.ts",
+      "import": "./dist/utils/graph.js"
+    },
+    "./analytics-utils": {
+      "types": "./dist/utils/analytics.d.ts",
+      "import": "./dist/utils/analytics.js"
     }
   },
   "scripts": {
@@ -124,7 +148,17 @@
     "image-processing",
     "heic",
     "optimization",
-    "typescript"
+    "typescript",
+    "threads",
+    "graph-analysis",
+    "social-graph",
+    "community-detection",
+    "centrality",
+    "pagerank",
+    "engagement-tracking",
+    "deletion",
+    "ttl-cache",
+    "media-upload"
   ],
   "author": "Luke Steuber <luke@lukesteuber.com>",
   "license": "MIT",

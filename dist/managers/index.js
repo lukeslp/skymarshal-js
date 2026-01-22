@@ -15,4 +15,6 @@ export { PostManager, } from './post.js';
 export { ListsManager, } from './lists.js';
 export { FeedsManager, } from './feeds.js';
 export { MediaManager, } from './media.js';
+export { DeletionManager, ValidationError, NetworkError, } from './deletion.js';
+export { EngagementManager, } from './engagement.js';
 //# sourceMappingURL=index.js.map
