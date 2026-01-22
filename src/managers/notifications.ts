@@ -93,7 +93,7 @@ export class NotificationManager {
    */
   async markAllRead(seenAt?: string): Promise<void> {
     const timestamp = seenAt || new Date().toISOString();
-    await this.agent.updateSeenNotifications({ seenAt: timestamp as `${string}-${string}-${string}T${string}:${string}:${string}Z` });
+    await this.agent.updateSeenNotifications(timestamp as `${string}-${string}-${string}T${string}:${string}:${string}Z`);
   }
 
   /**

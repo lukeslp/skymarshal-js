@@ -135,8 +135,8 @@ function mapThreadPost(thread: AppBskyFeedDefs.ThreadViewPost): ThreadPost {
   // Map replies if present
   if (thread.replies && Array.isArray(thread.replies)) {
     threadPost.replies = thread.replies
-      .filter((r): r is AppBskyFeedDefs.ThreadViewPost => AppBskyFeedDefs.isThreadViewPost(r))
-      .map((r) => mapThreadPost(r));
+      .filter((r) => AppBskyFeedDefs.isThreadViewPost(r))
+      .map((r) => mapThreadPost(r as AppBskyFeedDefs.ThreadViewPost));
   }
 
   return threadPost;
