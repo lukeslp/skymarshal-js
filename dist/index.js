@@ -1,10 +1,11 @@
 /**
- * skymarshal-core 2.2.0
+ * skymarshal-core 2.3.0
  *
  * Comprehensive Bluesky/AT Protocol toolkit for TypeScript/JavaScript.
  *
  * Provides authentication, content management, network analysis, chat,
- * analytics, backup, vision AI, and sentiment analysis.
+ * analytics, backup, vision AI, sentiment analysis, real-time streaming,
+ * rate limiting, and relationship management.
  *
  * @example
  * ```ts
@@ -49,7 +50,7 @@
  * @packageDocumentation
  */
 // ============================================================================
-// Errors - Centralized error hierarchy (v2.2.0+)
+// Errors - Centralized error hierarchy (v2.2.0+, enhanced v2.3.0)
 // ============================================================================
 export { 
 // Base error
@@ -97,7 +98,9 @@ MediaManager,
 // Deletion (v2.2.0)
 DeletionManager, ValidationError, NetworkError, 
 // Engagement (v2.2.0)
-EngagementManager, } from './managers/index.js';
+EngagementManager, 
+// Relationship Management (v2.3.0)
+RelationshipManager, } from './managers/index.js';
 // ============================================================================
 // Services - Extended functionality
 // ============================================================================
@@ -107,7 +110,9 @@ BackupService,
 // Vision/Alt Text
 VisionService, 
 // Sentiment
-SentimentService, } from './services/index.js';
+SentimentService, 
+// Real-time Streaming (v2.3.0)
+JetstreamService, } from './services/index.js';
 // ============================================================================
 // Utilities
 // ============================================================================
@@ -135,7 +140,11 @@ PostCache, fetchThread, fetchPreviewReplies, flattenThread, clearPostCache, getP
 // Graph analysis utilities (v2.2.0)
 degreeCentrality, betweennessCentrality, calculatePageRank, detectCommunities, calculateModularity, networkDensity, averageClustering, orbitTier, orbitStrengthDistribution, weightEdges, computeGraphMetrics, 
 // Analytics algorithms (v2.2.0)
-calculateEngagementRate, analyzePostEngagement, calculateFollowerRatio, calculatePopularityScore, analyzeAccountPopularity, calculateCleanupScore, isLikelyBot, getCleanupPriority, classifyPostType, hasLinks, extractHashtags, extractMentions, batchAnalyzePosts, batchAnalyzeAccounts, calculatePostSummary, calculateAccountSummary, } from './utils/index.js';
+calculateEngagementRate, analyzePostEngagement, calculateFollowerRatio, calculatePopularityScore, analyzeAccountPopularity, calculateCleanupScore, isLikelyBot, getCleanupPriority, classifyPostType, hasLinks, extractHashtags, extractMentions, batchAnalyzePosts, batchAnalyzeAccounts, calculatePostSummary, calculateAccountSummary, 
+// Rate limiting (v2.3.0)
+RateLimiter, RateLimiterManager, RateLimiterPresets, 
+// Retry logic (v2.3.0)
+withRetry, createRetryable, RetryPresets, calculateRatio, getInfluenceTier, calculateInfluenceScore as calculateInfluence, calculateInfluenceMetrics, rankByInfluence, groupByTier, getTopInfluencers, filterByMinScore, filterByTier, getInfluenceStats, compareInfluence, } from './utils/index.js';
 // ============================================================================
 // Database (Browser-only IndexedDB persistence)
 // ============================================================================

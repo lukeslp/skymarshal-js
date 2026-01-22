@@ -211,8 +211,8 @@ export function getAccountAgeInDays(createdAt) {
 /**
  * Analyze account for bot signals with detailed breakdown
  *
- * Detects 13 bot/spam signals:
- * 1. massFollowing: Following > 1000 with followers < 100 (score: 3)
+ * Detects 13 bot/spam signals (ported from bluevibes.py):
+ * 1. massFollowing: Following > 1000 with followers < following * 0.05 (score: 3)
  * 2. veryLowRatio: Ratio < 0.02 with following > 500 (score: 2)
  * 3. noPostsMassFollow: 0 posts but following > 100 (score: 3)
  * 4. roundFollowingCount: Exactly 1000, 2000, 5000, or 10000 following (score: 1)
@@ -226,11 +226,11 @@ export function getAccountAgeInDays(createdAt) {
  * 12. poorRatio: Ratio < 0.1 with following > 100 (score: 2)
  * 13. followingMany: Following > 5000 (score: 1)
  *
- * Categories:
- * - bot_likely: Score >= 8
- * - low_quality: Score >= 5
- * - suspicious: Score >= 3
- * - clean: Score < 3
+ * Categories (aligned with bluevibes):
+ * - bot_likely: Score >= 4
+ * - low_quality: Score >= 2
+ * - suspicious: Score >= 1
+ * - clean: Score < 1
  *
  * @param profile - Account profile with metrics and metadata
  * @returns Detailed bot analysis with signal breakdown
@@ -254,15 +254,16 @@ export function analyzeBotSignals(profile) {
     let totalScore = 0;
     const followerRatio = calculateFollowerRatio(profile.followers, profile.following);
     const accountAge = getAccountAgeInDays(profile.createdAt);
-    // Signal 1: Mass following with few followers
-    const massFollowing = profile.following > 1000 && profile.followers < 100;
+    // Signal 1: Mass following with few followers (updated to match bluevibes pattern)
+    // Following > 1000 AND followers < following * 0.05 (5% threshold)
+    const massFollowing = profile.following > 1000 && profile.followers < profile.following * 0.05;
     if (massFollowing) {
         const score = 3;
         signals.push({
             name: 'massFollowing',
             detected: true,
             score,
-            description: `Following ${profile.following} but only ${profile.followers} followers`,
+            description: `Following ${profile.following} but only ${profile.followers} followers (${(followerRatio * 100).toFixed(1)}% ratio)`,
         });
         totalScore += score;
     }
@@ -406,15 +407,15 @@ export function analyzeBotSignals(profile) {
         });
         totalScore += score;
     }
-    // Determine category based on total score
+    // Determine category based on total score (aligned with bluevibes thresholds)
     let category;
-    if (totalScore >= 8) {
+    if (totalScore >= 4) {
         category = 'bot_likely';
     }
-    else if (totalScore >= 5) {
+    else if (totalScore >= 2) {
         category = 'low_quality';
     }
-    else if (totalScore >= 3) {
+    else if (totalScore >= 1) {
         category = 'suspicious';
     }
     else {
@@ -438,10 +439,10 @@ export function analyzeBotSignals(profile) {
  * Check if an account is likely a bot based on signal analysis
  *
  * @param profile - Account profile details
- * @param threshold - Score threshold (default: 8 for 'bot_likely')
+ * @param threshold - Score threshold (default: 4 for 'bot_likely', aligned with bluevibes)
  * @returns True if bot score >= threshold
  */
-export function isLikelyBotEnhanced(profile, threshold = 8) {
+export function isLikelyBotEnhanced(profile, threshold = 4) {
     const result = analyzeBotSignals(profile);
     return result.totalScore >= threshold;
 }

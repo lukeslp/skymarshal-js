@@ -209,8 +209,8 @@ export declare function getAccountAgeInDays(createdAt?: string): number | null;
 /**
  * Analyze account for bot signals with detailed breakdown
  *
- * Detects 13 bot/spam signals:
- * 1. massFollowing: Following > 1000 with followers < 100 (score: 3)
+ * Detects 13 bot/spam signals (ported from bluevibes.py):
+ * 1. massFollowing: Following > 1000 with followers < following * 0.05 (score: 3)
  * 2. veryLowRatio: Ratio < 0.02 with following > 500 (score: 2)
  * 3. noPostsMassFollow: 0 posts but following > 100 (score: 3)
  * 4. roundFollowingCount: Exactly 1000, 2000, 5000, or 10000 following (score: 1)
@@ -224,11 +224,11 @@ export declare function getAccountAgeInDays(createdAt?: string): number | null;
  * 12. poorRatio: Ratio < 0.1 with following > 100 (score: 2)
  * 13. followingMany: Following > 5000 (score: 1)
  *
- * Categories:
- * - bot_likely: Score >= 8
- * - low_quality: Score >= 5
- * - suspicious: Score >= 3
- * - clean: Score < 3
+ * Categories (aligned with bluevibes):
+ * - bot_likely: Score >= 4
+ * - low_quality: Score >= 2
+ * - suspicious: Score >= 1
+ * - clean: Score < 1
  *
  * @param profile - Account profile with metrics and metadata
  * @returns Detailed bot analysis with signal breakdown
@@ -252,7 +252,7 @@ export declare function analyzeBotSignals(profile: AccountProfile): BotAnalysisR
  * Check if an account is likely a bot based on signal analysis
  *
  * @param profile - Account profile details
- * @param threshold - Score threshold (default: 8 for 'bot_likely')
+ * @param threshold - Score threshold (default: 4 for 'bot_likely', aligned with bluevibes)
  * @returns True if bot score >= threshold
  */
 export declare function isLikelyBotEnhanced(profile: AccountProfile, threshold?: number): boolean;
