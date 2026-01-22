@@ -113,6 +113,22 @@
     "./analytics-utils": {
       "types": "./dist/utils/analytics.d.ts",
       "import": "./dist/utils/analytics.js"
+    },
+    "./rate-limiter": {
+      "types": "./dist/utils/rateLimiter.d.ts",
+      "import": "./dist/utils/rateLimiter.js"
+    },
+    "./retry": {
+      "types": "./dist/utils/retry.d.ts",
+      "import": "./dist/utils/retry.js"
+    },
+    "./relationship": {
+      "types": "./dist/managers/relationship.d.ts",
+      "import": "./dist/managers/relationship.js"
+    },
+    "./influence": {
+      "types": "./dist/utils/analytics/followerRanking.d.ts",
+      "import": "./dist/utils/analytics/followerRanking.js"
     }
   },
   "scripts": {
