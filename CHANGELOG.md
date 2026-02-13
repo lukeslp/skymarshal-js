@@ -366,7 +366,7 @@ Ported from Python (bluebeam.py, blueye.py, bluefry.py) with **zero dependencies
   - `parseCarFile()`, `importRecords()` - CAR file handling
   - `getBackupInfo()` - Backup metadata
 
-- **VisionService** - AI-powered alt text generation
+- **VisionService** - Vision model alt text generation
   - `generateAltText()`, `analyzeImage()` - Image description
   - Multi-provider support: Ollama (local), OpenAI, Anthropic, xAI
   - `configureProvider()`, `setDefaultProvider()`, `getProviders()`
