@@ -1,0 +1,1 @@
+{"version":3,"file":"recordkey.d.ts","sourceRoot":"","sources":["../src/recordkey.ts"],"names":[],"mappings":"AAAA,MAAM,MAAM,eAAe,GAAG,MAAM,CAAA;AAmBpC,wBAAgB,oBAAoB,CAClC,IAAI,EAAE,MAAM,GACX,OAAO,CAAC,IAAI,IAAI,eAAe,CAgBjC;AAED,wBAAgB,gBAAgB,CAAC,IAAI,EAAE,MAAM,GAAG,IAAI,IAAI,eAAe,CAOtE;AAED,qBAAa,qBAAsB,SAAQ,KAAK;CAAG"}

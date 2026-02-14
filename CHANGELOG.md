@@ -368,7 +368,7 @@ Ported from Python (bluebeam.py, blueye.py, bluefry.py) with **zero dependencies
 
 - **VisionService** - Vision model alt text generation
   - `generateAltText()`, `analyzeImage()` - Image description
-  - Multi-provider support: Ollama (local), OpenAI, Anthropic, xAI
+  - Multi-provider support: Ollama (local), OpenAI, Anthropic
   - `configureProvider()`, `setDefaultProvider()`, `getProviders()`
 
 - **SentimentService** - VADER-style text sentiment analysis

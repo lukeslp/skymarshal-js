@@ -1,10 +1,10 @@
 /**
  * VisionService - Image description and alt text generation
- * Supports: Ollama (local), OpenAI, Anthropic, xAI/Grok
+ * Supports: Ollama (local), OpenAI, Anthropic
  * @module skymarshal-core/services/vision
  */
 /** Supported vision providers */
-export type VisionProvider = 'ollama' | 'openai' | 'anthropic' | 'xai';
+export type VisionProvider = 'ollama' | 'openai' | 'anthropic';
 /** Provider configuration */
 export interface ProviderConfig {
     provider: VisionProvider;
@@ -42,7 +42,7 @@ export interface ImageAnalysis {
 }
 /**
  * VisionService - Generates alt text and analyzes images
- * Supports multiple providers: Ollama (local), OpenAI, Anthropic, xAI/Grok
+ * Supports multiple providers: Ollama (local), OpenAI, Anthropic
  */
 export declare class VisionService {
     private configs;
@@ -80,10 +80,6 @@ export declare class VisionService {
      * Generate with Anthropic
      */
     private generateWithAnthropic;
-    /**
-     * Generate with xAI (Grok)
-     */
-    private generateWithXAI;
     /**
      * Convert URL to base64
      */

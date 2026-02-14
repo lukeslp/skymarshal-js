@@ -1,11 +1,11 @@
 /**
  * VisionService - Image description and alt text generation
- * Supports: Ollama (local), OpenAI, Anthropic, xAI/Grok
+ * Supports: Ollama (local), OpenAI, Anthropic
  * @module skymarshal-core/services/vision
  */
 
 /** Supported vision providers */
-export type VisionProvider = 'ollama' | 'openai' | 'anthropic' | 'xai';
+export type VisionProvider = 'ollama' | 'openai' | 'anthropic';
 
 /** Provider configuration */
 export interface ProviderConfig {
@@ -58,12 +58,11 @@ const DEFAULT_MODELS: Record<VisionProvider, string> = {
   ollama: 'llava-phi3',
   openai: 'gpt-4o-mini',
   anthropic: 'claude-3-haiku-20240307',
-  xai: 'grok-2-vision-1212',
 };
 
 /**
  * VisionService - Generates alt text and analyzes images
- * Supports multiple providers: Ollama (local), OpenAI, Anthropic, xAI/Grok
+ * Supports multiple providers: Ollama (local), OpenAI, Anthropic
  */
 export class VisionService {
   private configs: Map<VisionProvider, ProviderConfig> = new Map();
@@ -132,9 +131,6 @@ export class VisionService {
         break;
       case 'anthropic':
         text = await this.generateWithAnthropic(imageUrl, prompt, model, config!.apiKey!);
-        break;
-      case 'xai':
-        text = await this.generateWithXAI(imageUrl, prompt, model, config!.apiKey!);
         break;
       default:
         throw new Error(`Unsupported provider: ${provider}`);
@@ -293,49 +289,6 @@ export class VisionService {
 
     const data = await response.json();
     return data.content[0].text;
-  }
-
-  /**
-   * Generate with xAI (Grok)
-   */
-  private async generateWithXAI(
-    imageUrl: string,
-    prompt: string,
-    model: string,
-    apiKey: string
-  ): Promise<string> {
-    const imageContent = imageUrl.startsWith('data:')
-      ? { type: 'image_url', image_url: { url: imageUrl } }
-      : { type: 'image_url', image_url: { url: imageUrl } };
-
-    const response = await fetch('https://api.x.ai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [
-          {
-            role: 'user',
-            content: [
-              { type: 'text', text: prompt },
-              imageContent,
-            ],
-          },
-        ],
-        max_tokens: 500,
-      }),
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`xAI error: ${error.error?.message || response.status}`);
-    }
-
-    const data = await response.json();
-    return data.choices[0].message.content;
   }
 
   /**

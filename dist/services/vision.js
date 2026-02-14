@@ -1,6 +1,6 @@
 /**
  * VisionService - Image description and alt text generation
- * Supports: Ollama (local), OpenAI, Anthropic, xAI/Grok
+ * Supports: Ollama (local), OpenAI, Anthropic
  * @module skymarshal-core/services/vision
  */
 /** Default prompts for alt text generation */
@@ -14,11 +14,10 @@ const DEFAULT_MODELS = {
     ollama: 'llava-phi3',
     openai: 'gpt-4o-mini',
     anthropic: 'claude-3-haiku-20240307',
-    xai: 'grok-2-vision-1212',
 };
 /**
  * VisionService - Generates alt text and analyzes images
- * Supports multiple providers: Ollama (local), OpenAI, Anthropic, xAI/Grok
+ * Supports multiple providers: Ollama (local), OpenAI, Anthropic
  */
 export class VisionService {
     configs = new Map();
@@ -78,9 +77,6 @@ export class VisionService {
                 break;
             case 'anthropic':
                 text = await this.generateWithAnthropic(imageUrl, prompt, model, config.apiKey);
-                break;
-            case 'xai':
-                text = await this.generateWithXAI(imageUrl, prompt, model, config.apiKey);
                 break;
             default:
                 throw new Error(`Unsupported provider: ${provider}`);
@@ -211,40 +207,6 @@ export class VisionService {
         }
         const data = await response.json();
         return data.content[0].text;
-    }
-    /**
-     * Generate with xAI (Grok)
-     */
-    async generateWithXAI(imageUrl, prompt, model, apiKey) {
-        const imageContent = imageUrl.startsWith('data:')
-            ? { type: 'image_url', image_url: { url: imageUrl } }
-            : { type: 'image_url', image_url: { url: imageUrl } };
-        const response = await fetch('https://api.x.ai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`,
-            },
-            body: JSON.stringify({
-                model,
-                messages: [
-                    {
-                        role: 'user',
-                        content: [
-                            { type: 'text', text: prompt },
-                            imageContent,
-                        ],
-                    },
-                ],
-                max_tokens: 500,
-            }),
-        });
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(`xAI error: ${error.error?.message || response.status}`);
-        }
-        const data = await response.json();
-        return data.choices[0].message.content;
     }
     /**
      * Convert URL to base64

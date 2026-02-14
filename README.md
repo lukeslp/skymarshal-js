@@ -2,7 +2,7 @@
 
 **Comprehensive Bluesky/AT Protocol toolkit for TypeScript/JavaScript**
 
-skymarshal provides everything you need to build Bluesky applications: authentication, content management, network analysis, chat/DMs, notifications, profile management, posts, lists, feeds, media uploads, bot detection, backup, alt text generation, and sentiment analysis.
+skymarshal provides everything you need to build Bluesky applications: authentication, content management, network analysis, chat/DMs, notifications, profile management, posts, lists, feeds, media uploads, bot detection, backup, and sentiment analysis.
 
 [![npm version](https://badge.fury.io/js/skymarshal.svg)](https://www.npmjs.com/package/skymarshal)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -314,42 +314,13 @@ const { repo, collection, rkey } = parseAtUri('at://did:plc:xyz/app.bsky.feed.po
 | Service | Description |
 |---------|-------------|
 | **BackupService** | CAR file export for account backup |
-| **VisionService** | Alt text generation (Ollama, OpenAI, Anthropic, xAI/Grok) |
+| **VisionService** | Alt text generation (Ollama, OpenAI, Anthropic) |
 | **SentimentService** | VADER-based text sentiment analysis |
 | **JetstreamService** | Real-time Bluesky firehose streaming via WebSocket |
 
-### VisionService Providers
+### VisionService
 
-```typescript
-import { VisionService } from 'skymarshal';
-
-// Local with Ollama (no API key needed)
-const vision = new VisionService({ provider: 'ollama' });
-
-// Cloud providers
-const vision = new VisionService([
-  { provider: 'openai', apiKey: process.env.OPENAI_API_KEY },
-  { provider: 'anthropic', apiKey: process.env.ANTHROPIC_API_KEY },
-  { provider: 'xai', apiKey: process.env.XAI_API_KEY },
-]);
-
-// Generate alt text
-const result = await vision.generateAltText(imageUrl);
-console.log(result.text);
-
-// Detailed analysis
-const analysis = await vision.analyzeImage(imageUrl, { detailed: true });
-console.log(analysis.description);
-console.log(analysis.objects);
-console.log(analysis.accessibility.altText);
-```
-
-| Provider | Default Model | Notes |
-|----------|---------------|-------|
-| Ollama | llava-phi3 | Local/self-hosted |
-| OpenAI | gpt-4o-mini | Cloud API |
-| Anthropic | claude-3-haiku | Cloud API |
-| xAI/Grok | grok-2-vision-1212 | Cloud API |
+The VisionService provides image analysis and alt text generation using vision-capable language models. See documentation for full details.
 
 ### JetstreamService - Real-time Firehose
 
