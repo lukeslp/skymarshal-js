@@ -491,9 +491,10 @@ import type {
 
 ## Related Projects
 
-- **[@atproto/api](https://www.npmjs.com/package/@atproto/api)** - AT Protocol client (peer dependency)
-- **[skymarshal (PyPI)](https://pypi.org/project/skymarshal/)** - Python CLI version
-- **[Skymarshal Web](https://github.com/lukeslp/skymarshal-js)** - Web UI and documentation
+- **[@atproto/api](https://www.npmjs.com/package/@atproto/api)** — AT Protocol client (peer dependency)
+- **[skymarshal](https://github.com/lukeslp/skymarshal)** — Python CLI version
+- **[bluedrop](https://github.com/lukeslp/bluedrop)** — browser extension for DMs, Zen Mode, and dark mode
+- **[bsky-firehose-anonymized-dec-2025](https://github.com/lukeslp/bsky-firehose-anonymized-dec-2025)** — dataset: 101K anonymized Bluesky posts
 
 ## License
 
