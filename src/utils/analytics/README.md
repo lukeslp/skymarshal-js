@@ -64,7 +64,7 @@ Where:
 ##### Calculate Metrics
 
 ```typescript
-import { calculateInfluenceMetrics } from 'skymarshal-core/utils';
+import { calculateInfluenceMetrics } from 'skymarshal/utils';
 
 const metrics = calculateInfluenceMetrics({
   did: 'did:plc:xyz',
@@ -86,7 +86,7 @@ const metrics = calculateInfluenceMetrics({
 ##### Rank Profiles
 
 ```typescript
-import { rankByInfluence } from 'skymarshal-core/utils';
+import { rankByInfluence } from 'skymarshal/utils';
 
 const ranked = rankByInfluence(profiles);
 
@@ -98,7 +98,7 @@ ranked.forEach(profile => {
 ##### Group by Tier
 
 ```typescript
-import { groupByTier } from 'skymarshal-core/utils';
+import { groupByTier } from 'skymarshal/utils';
 
 const grouped = groupByTier(profiles);
 
@@ -109,7 +109,7 @@ console.log(`Macro influencers: ${grouped.macro.length}`);
 ##### Get Top Influencers
 
 ```typescript
-import { getTopInfluencers } from 'skymarshal-core/utils';
+import { getTopInfluencers } from 'skymarshal/utils';
 
 const top10 = getTopInfluencers(profiles, 10);
 ```
@@ -117,7 +117,7 @@ const top10 = getTopInfluencers(profiles, 10);
 ##### Filter Profiles
 
 ```typescript
-import { filterByTier, filterByMinScore } from 'skymarshal-core/utils';
+import { filterByTier, filterByMinScore } from 'skymarshal/utils';
 
 // Get only major influencers
 const major = filterByTier(profiles, ['mega', 'macro']);
@@ -129,7 +129,7 @@ const highInfluence = filterByMinScore(profiles, 50);
 ##### Get Statistics
 
 ```typescript
-import { getInfluenceStats } from 'skymarshal-core/utils';
+import { getInfluenceStats } from 'skymarshal/utils';
 
 const stats = getInfluenceStats(profiles);
 
@@ -141,7 +141,7 @@ console.log(`Tier distribution:`, stats.tierCounts);
 ##### Compare Profiles
 
 ```typescript
-import { compareInfluence } from 'skymarshal-core/utils';
+import { compareInfluence } from 'skymarshal/utils';
 
 const comparison = compareInfluence(profileA, profileB);
 
@@ -154,7 +154,7 @@ if (comparison.winner === 'a') {
 
 ```typescript
 import { AtpAgent } from '@atproto/api';
-import { rankByInfluence, getTopInfluencers } from 'skymarshal-core/utils';
+import { rankByInfluence, getTopInfluencers } from 'skymarshal/utils';
 
 const agent = new AtpAgent({ service: 'https://bsky.social' });
 
