@@ -1,8 +1,8 @@
 # skymarshal
 
-**Comprehensive Bluesky/AT Protocol toolkit for TypeScript/JavaScript**
+**Bluesky/AT Protocol toolkit for TypeScript/JavaScript**
 
-skymarshal provides everything you need to build Bluesky applications: authentication, content management, network analysis, chat/DMs, notifications, profile management, posts, lists, feeds, media uploads, bot detection, backup, and sentiment analysis.
+Authentication, content management, network analysis, chat/DMs, notifications, profile management, posts, lists, feeds, media uploads, bot detection, backup, and sentiment analysis.
 
 [![npm version](https://badge.fury.io/js/skymarshal.svg)](https://www.npmjs.com/package/skymarshal)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
